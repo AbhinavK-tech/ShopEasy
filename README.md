@@ -1,6 +1,7 @@
 ShopEasy – Online Stationery & Bookstore Management System
 
 ShopEasy is a DBMS-based e-commerce web application developed using HTML, CSS, JavaScript, Bootstrap, Java, and MySQL.  
+
 The project simulates an online shopping platform for stationery and books, similar to Flipkart, where users can browse products, add to cart, and place orders.
 
 📌 Features
