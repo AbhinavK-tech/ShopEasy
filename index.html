@@ -9,92 +9,705 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-body{background:#f1f3f6;font-family:Roboto;}
+body{
+background:#f1f3f6;
+font-family:Roboto;
+}
+
+/* HEADER */
+
 .header{
 background:#2874f0;
-padding:10px;
+padding:10px 20px;
+display:flex;
+align-items:center;
+justify-content:space-between;
 color:white;
 }
-.logo{font-weight:bold;font-size:20px;}
-.search{width:60%;}
+
+.header-left{
+display:flex;
+align-items:center;
+gap:20px;
+}
+
+.header-right{
+display:flex;
+align-items:center;
+gap:20px;
+}
+
+/* LOGO */
+
+.logo{
+font-size:20px;
+font-weight:bold;
+cursor:pointer;
+}
+
+/* SEARCH */
+
+.search-box{
+position:relative;
+}
+
+.search-box input{
+width:450px;
+padding:6px 10px;
+border-radius:2px;
+border:none;
+}
+
+#searchHistoryBox{
+position:absolute;
+top:40px;
+background:white;
+width:100%;
+border:1px solid #ddd;
+max-height:300px;
+overflow-y:auto;
+box-shadow:0 4px 10px rgba(0,0,0,0.15);
+border-radius:4px;
+z-index:1000;
+}
+
+/* LOCATION */
+.delivery-location{
+display:flex;
+align-items:center;
+gap:6px;
+cursor:pointer;
+font-size:14px;
+}
+.location-icon{
+width:20px;
+height:20px;
+margin-right:8px;
+}
+.select-location{
+color:#cce0ff;
+}
+
+/* LOGIN */
+/* =========================
+   GLASS MODAL DESIGN
+========================= */
+
+.glass-modal{
+background:rgba(255,255,255,0.15);
+backdrop-filter:blur(18px);
+-webkit-backdrop-filter:blur(18px);
+border-radius:16px;
+border:1px solid rgba(255,255,255,0.3);
+box-shadow:0 10px 40px rgba(0,0,0,0.35);
+overflow:hidden;
+position:relative;
+}
+
+/* glass shine effect */
+
+.glass-modal::before{
+content:"";
+position:absolute;
+top:0;
+left:-80%;
+width:60%;
+height:100%;
+background:linear-gradient(
+120deg,
+transparent,
+rgba(255,255,255,0.35),
+transparent
+);
+transform:skewX(-25deg);
+transition:0.6s;
+}
+
+.glass-modal:hover::before{
+left:130%;
+}
+
+
+/* =========================
+   ANIMATED GRADIENT PANEL
+========================= */
+
+.creative-login-left{
+padding:40px;
+color:white;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+position:relative;
+overflow:hidden;
+
+background:linear-gradient(
+-45deg,
+#2874f0,
+#1f5edc,
+#4facfe,
+#00c6ff
+);
+
+background-size:400% 400%;
+animation:gradientMove 10s ease infinite;
+}
+
+
+/* floating glowing circles */
+
+.creative-login-left::before{
+content:"";
+position:absolute;
+width:200px;
+height:200px;
+background:rgba(255,255,255,0.15);
+border-radius:50%;
+top:-60px;
+right:-60px;
+filter:blur(10px);
+animation:floatOrb 6s ease-in-out infinite;
+}
+
+.creative-login-left::after{
+content:"";
+position:absolute;
+width:150px;
+height:150px;
+background:rgba(255,255,255,0.12);
+border-radius:50%;
+bottom:-50px;
+left:-50px;
+filter:blur(8px);
+animation:floatOrb 7s ease-in-out infinite;
+}
+
+/* gradient animation */
+
+@keyframes gradientMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+/* floating animation */
+
+@keyframes floatOrb{
+0%{transform:translateY(0px);}
+50%{transform:translateY(-15px);}
+100%{transform:translateY(0px);}
+}
+
+
+/* =========================
+   BRANDING
+========================= */
+
+.brand-title{
+font-size:34px;
+font-weight:700;
+letter-spacing:1px;
+}
+
+.brand-tagline{
+margin-top:10px;
+font-size:15px;
+color:#e6f0ff;
+}
+
+/* =========================
+   BENEFITS LIST
+========================= */
+
+.benefits{
+margin-top:30px;
+display:flex;
+flex-direction:column;
+gap:20px;
+}
+
+.benefit{
+display:flex;
+align-items:center;
+font-size:15px;
+transition:0.3s;
+}
+
+.benefit:hover{
+transform:translateX(6px);
+}
+
+
+/* icon styling */
+
+.icon{
+font-size:22px;
+margin-right:12px;
+transition:0.3s;
+}
+
+.benefit:hover .icon{
+transform:scale(1.2);
+}
+
+.login-btn{
+background:#fb641b;
+border:none;
+padding:12px;
+font-weight:500;
+margin-top:10px;
+}
+
+.login-btn:hover{
+background:#e65c00;
+}
+
+.create-account{
+margin-top:50px;
+font-size:14px;
+color:#878787;
+}
+
+.create-account a{
+color:#2874f0;
+font-weight:500;
+text-decoration:none;
+}
+
+.create-account a:hover{
+text-decoration:underline;
+}
+
+/* CART */
+.cart-wrapper{
+display:flex;
+align-items:center;
+cursor:pointer;
+position:relative;
+}
+.cart-icon-img{
+width:22px;
+margin-right:6px;
+filter:brightness(0) invert(1);
+}
+
+/* CART BADGE */
+#cartCountBadge{
+position:absolute;
+top:-6px;
+left:12px;
+background:#ff6161;
+color:white;
+font-size:10px;
+font-weight:bold;
+padding:1px 5px;
+border-radius:10px;
+display:none;
+}
+
+/* PRODUCT CARD */
+.product-card{
+background:white;
+padding:15px;
+border-radius:2px;
+border:1px solid #f0f0f0;
+height:100%;
+}
+.product-card img{
+height:180px;
+object-fit:contain;
+}
+.price{
+font-weight:bold;
+font-size:18px;
+}
+.offer{
+color:#388e3c;
+font-size:14px;
+}
 .category-icons{
-background:white;padding:15px;
-display:flex;justify-content:space-around;
+background:white;
+padding:12px 0;
+display:flex;
+justify-content:space-around;
+align-items:center;
+border-bottom:1px solid #ddd;
 }
+
 .category-icons div{
-text-align:center;font-size:14px;cursor:pointer;
+text-align:center;
+font-size:14px;
+cursor:pointer;
+padding:5px 10px;
 }
-.product-card img{height:180px;object-fit:cover;}
-.price{font-weight:bold;font-size:18px;}
-.offer{color:green;font-size:14px;}
-.login-link{cursor:pointer;color:white;}
-.login-link:hover{text-decoration:underline;}
-.cart-link{cursor:pointer;color:white;}
-.cart-link:hover{text-decoration:underline;}
+.category-icons div:hover{
+color:#2874f0;
+font-weight:500;
+}
+
+/* LOCATION DRAWER */
+
+.location-drawer{
+position:fixed;
+top:0;
+right:-420px;
+width:400px;
+height:100%;
+background:white;
+box-shadow:-2px 0 8px rgba(0,0,0,0.2);
+z-index:2000;
+transition:0.3s;
+display:flex;
+flex-direction:column;
+}
+
+.location-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px;
+border-bottom:1px solid #eee;
+font-weight:600;
+}
+
+.close-location{
+font-size:22px;
+cursor:pointer;
+}
+
+.location-body{
+padding:15px;
+}
+
+.location-search{
+width:100%;
+padding:10px;
+border:1px solid #ddd;
+border-radius:6px;
+margin-bottom:15px;
+}
+
+.use-location{
+display:flex;
+align-items:center;
+gap:8px;
+color:#2874f0;
+cursor:pointer;
+font-weight:500;
+}
+
+.location-icon{
+width:18px;
+height:18px;
+}
+
+.saved-address{
+margin-top:20px;
+}
+
+.login-saved{
+color:#2874f0;
+cursor:pointer;
+font-size:14px;
+}
+
+.close-btn{
+position:absolute;
+top:5px;
+right:10px;
+border:none;
+background:none;
+font-size:22px;
+cursor:pointer;
+}
+
+/* LOGIN DROPDOWN */
+
+.login-dropdown{
+position:relative;
+}
+
+/* dropdown box */
+
+.dropdown-menu-login{
+position:absolute;
+top:38px;
+right:0;
+width:250px;
+background:white;
+border-radius:8px;
+box-shadow:0 8px 20px rgba(0,0,0,0.2);
+display:none;
+z-index:9999;
+padding:0;
+}
+
+.login-dropdown:hover .dropdown-menu-login{
+display:block;
+}
+
+.dropdown-top span{
+color:#333;
+font-size:14px;
+font-weight:400;
+}
+
+.dropdown-top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px 16px;
+border-bottom:1px solid #eee;
+}
+
+.dropdown-top a{
+color:#2874f0;
+font-weight:500;
+text-decoration:none;
+}
+
+.login-dropdown::after{
+content:"";
+position:absolute;
+top:38px;
+right:0;
+width:250px;
+height:15px;
+}
+
+/* signup row */
+
+.dropdown-top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px 16px;
+font-size:14px;
+}
+
+.dropdown-top a{
+color:#2874f0;
+font-weight:500;
+text-decoration:none;
+}
+
+/* divider */
+
+.dropdown-menu-login hr{
+margin:0;
+border:none;
+border-top:1px solid #eee;
+}
+
+/* menu items */
+
+.dropdown-menu-login a{
+display:flex;
+align-items:center;
+gap:12px;
+padding:12px 16px;
+text-decoration:none;
+color:#333;
+font-size:14px;
+}
+
+.dropdown-menu-login a:hover{
+background:#f1f3f6;
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
-<!-- HEADER -->
-<div class="header d-flex justify-content-between align-items-center">
-    <div class="logo" onclick="goHome()" style="cursor:pointer;">ShopEasy</div>
+<div class="header">
 
-    <!-- SEARCH BAR -->
-    <div style="position:relative; width:60%;">
-        <input type="text"
-               id="searchInput"
-               class="form-control"
-               placeholder="Search for products, brands and more"
-               onkeyup="searchProducts(this.value)"
-               onfocus="displaySearchHistory()">
+<div class="header-left">
 
-        <div id="searchHistoryBox"
-             style="position:absolute;
-                    width:100%;
-                    background:white;
-                    box-shadow:0 4px 8px rgba(0,0,0,0.2);
-                    display:none;
-                    z-index:1000;">
-        </div>
-    </div>
+<div class="logo" onclick="goHome()">
+ShopEasy
+</div>
 
-    <div>
-        <span class="login-link" data-bs-toggle="modal" data-bs-target="#loginModal">Login</span> |
-        <span class="cart-link" onclick="showCartPage()">Cart</span>
-    </div>
+<!-- SEARCH BAR -->
+<div class="search-box">
+<input type="text"
+id="searchInput"
+placeholder="Search for products, brands and more"
+class="form-control"
+onkeyup="searchProducts(this.value); showSuggestions(this.value)"
+onkeydown="handleEnter(event)"
+onclick="displaySearchHistory()">
+<div id="searchHistoryBox"
+style="
+position:absolute;
+top:40px;
+background:white;
+width:100%;
+border:1px solid #ddd;
+display:none;
+z-index:1000;
+max-height:220px;
+overflow-y:auto;
+box-shadow:0 4px 10px rgba(0,0,0,0.15);
+border-radius:4px;
+">
+</div>
+</div>
+
+</div>
+
+<div class="header-right">
+
+<div class="delivery-location" onclick="openLocationModal()">
+
+<img src="https://cdn-icons-png.flaticon.com/512/684/684908.png"
+class="location-icon">
+
+<span id="locationText">Location not set</span>
+
+<span class="select-location">Select delivery location ></span>
+
+</div>
+
+<!-- LOGIN -->
+<div class="login-dropdown">
+
+<a href="javascript:void(0)"
+class="login-link text-white text-decoration-none d-flex align-items-center gap-2">
+
+<img src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/profile-6bae67.svg"
+width="24"
+style="filter:brightness(0) invert(1);">
+
+<span>Login</span>
+
+</a>
+
+<div class="dropdown-menu-login">
+
+<div class="dropdown-top">
+<span>New customer?</span>
+<a href="login.html">Sign Up</a>
+</div>
+
+<hr>
+
+<a href="profile.html">👤 My Profile</a>
+<a href="orders.html">📦 Orders</a>
+<a href="wishlist.html">❤️ Wishlist</a>
+<a href="#">⭐ Rewards</a>
+<a href="#">💳 Gift Cards</a>
+<a href="#">🚪 Logout</a>
+
+</div>
+
+</div>
+<!-- CART -->
+<div class="cart-wrapper" onclick="showCartPage()">
+
+<span id="cartCountBadge"></span>
+
+<img src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/header_cart_v4-6ac9a8.svg"
+class="cart-icon-img">
+
+Cart
+
+</div>
+
+</div>
+
 </div>
 
 <!-- CART MODAL -->
 <div class="container my-4" id="cartPage" style="display:none;">
-<div class="row">
-<div id="emptyCartUI" class="text-center py-5" style="display:none;">
-    <img src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png" width="120" class="mb-3">
-    <h4>Your cart is empty!</h4>
-    <p class="text-muted">Add items to it now.</p>
-    <button class="btn btn-primary px-4" onclick="goToProducts()">Shop Now</button>
-</div>
+    <div class="row">
+
+        <div id="emptyCartUI" class="text-center py-5" style="display:none;">
+            <img src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png"
+                 width="120"
+                 class="mb-3">
+
+            <h4>Your cart is empty!</h4>
+            <p class="text-muted">Add items to it now.</p>
+
+            <button class="btn btn-primary px-4"
+                    onclick="goToProducts()">
+                    Shop Now
+            </button>
+        </div>
 
 <!-- LEFT SIDE - CART ITEMS -->
 <div class="col-md-8">
-<div class="card p-3">
-<h5>My Cart (<span id="cartCount">0</span>)</h5>
-<hr>
-<div id="cartItemsList"></div>
-<hr>
-<h6 class="mt-3">Saved For Later (<span id="savedCount">0</span>)</h6>
-<div id="savedItemsList"></div>
+    
+    <div id="step1_CartItems">
+        <div class="card p-3">
+            <h5>My Cart (<span id="cartCount">0</span>)</h5>
+            <hr>
+            <div id="cartItemsList"></div>
+            <hr>
+            <h6 class="mt-3 text-muted">Saved For Later (<span id="savedCount">0</span>)</h6>
+            <div id="savedItemsList"></div>
 
-<div class="text-end mt-3">
-<button class="btn btn-secondary">Save for Later</button>
-<button class="btn btn-danger">Remove All</button>
-</div>
-</div>
+            <div class="text-end mt-3 border-top pt-3">
+                <button class="btn btn-light me-2" onclick="clearCart()">Remove All</button>
+                <button class="btn btn-warning px-5 py-2 fw-bold" onclick="proceedToCheckout()">PLACE ORDER</button>
+            </div>
+        </div>
+    </div>
 
-<div class="card mt-3 p-3 text-end">
-<button class="btn btn-warning px-5 py-2 fw-bold">PLACE ORDER</button>
-</div>
+    <div id="step2_Checkout" class="card p-4" style="display:none;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="mb-0">Delivery & Payment Details</h5>
+            <button class="btn btn-sm btn-outline-secondary" onclick="backToCart()">← Back to Cart</button>
+        </div>
+        <hr>
+        <form id="orderForm">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label small fw-bold">Full Name</label>
+                    <input type="text" class="form-control" id="orderName" placeholder="Enter your name" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label small fw-bold">Phone Number</label>
+                    <input type="tel" 
+                      class="form-control" 
+                      id="orderPhone" 
+                      placeholder="10-digit mobile number" 
+                      maxlength="10" 
+                       oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+                        required>
+                </div>
+                <div class="col-12">
+                    <label class="form-label small fw-bold">Delivery Address</label>
+                    <textarea class="form-control" id="orderAddress" rows="2" placeholder="House No, Street, Area, Pincode" required></textarea>
+                </div>
+            </div>
+            
+            <h6 class="mt-4">Payment Method</h6>
+            <div class="form-check border p-3 rounded mb-3 bg-light">
+                <input class="form-check-input ms-1" type="radio" name="payment" id="cod" checked>
+                <label class="form-check-label ms-2" for="cod">Cash on Delivery (COD)</label>
+            </div>
+
+            <button type="button" class="btn btn-warning w-100 py-3 fw-bold" onclick="finalizeOrder()">CONFIRM ORDER</button>
+        </form>
+    </div>
+
+    <div id="orderSuccess" class="card p-5 text-center" style="display:none;">
+        <div class="mb-3">
+            <img src="https://cdn-icons-png.flaticon.com/512/5290/5290058.png" width="80" alt="Success">
+        </div>
+        <h3 class="text-success">Order Placed Successfully!</h3>
+        <p class="text-muted">Thank you for shopping with ShopEasy.</p>
+        <div class="bg-light p-3 rounded mb-3">
+            <p class="mb-1 text-dark">Order ID: <span id="orderIdDisplay" class="fw-bold text-primary"></span></p>
+        </div>
+        <div class="d-grid gap-2">
+            <button class="btn btn-dark" onclick="downloadInvoice()">Download Invoice (PDF)</button>
+            <button class="btn btn-outline-primary" onclick="goHome()">Continue Shopping</button>
+        </div>
+    </div>
+
 </div>
 
 <!-- RIGHT SIDE - PRICE DETAILS -->
@@ -102,52 +715,42 @@ text-align:center;font-size:14px;cursor:pointer;
 <div class="card p-3">
 <h6>PRICE DETAILS</h6>
 <hr>
-<p>Price (<span id="totalItems">0</span> items) <span class="float-end">₹<span id="totalPrice">0</span></span></p>
-<p>Discount <span class="float-end text-success">−₹15</span></p>
-<p>Delivery Charges <span class="float-end text-success">FREE</span></p>
+<p>
+Price (<span id="totalItems">0</span> items)
+<span class="float-end">
+₹<span id="totalPrice">0</span>
+</span>
+</p>
+
+<p>
+Discount
+<span class="float-end text-success">
+−₹<span id="discountAmount">0</span>
+</span>
+</p>
+
+<p>
+Delivery Charges
+<span class="float-end text-success">FREE</span>
+</p>
+
 <hr>
-<h6>Total Amount <span class="float-end">₹<span id="finalAmount">0</span></span></h6>
-<p class="text-success mt-2">You will save ₹100 on this order</p>
-</div>
-</div>
+
+<h6>
+Total Amount
+<span class="float-end">
+₹<span id="finalAmount">0</span>
+</span>
+</h6>
+
+<p class="text-success mt-2">
+You will save ₹<span id="saveAmount">0</span> on this order
+</p>
 
 </div>
 </div>
 
-<!-- LOGIN MODAL -->
-<div class="modal fade" id="loginModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      
-      <div class="modal-header bg-primary text-white">
-        <h5 class="modal-title">Login to ShopEasy</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-      </div>
-      
-      <div class="modal-body">
-        <!-- STEP 1: Enter Email/Phone -->
-        <form id="loginForm" style="display:block;">
-          <div class="mb-3">
-            <label class="form-label">Email or Phone Number</label>
-            <input type="text" class="form-control" id="emailOrPhone" placeholder="Enter email or phone number" required>
-          </div>
-          <button type="submit" class="btn btn-primary w-100">Request OTP</button>
-        </form>
-
-        <!-- STEP 2: Enter OTP -->
-        <form id="otpForm" style="display:none;">
-          <div class="mb-3">
-            <p id="otpMessage" class="text-muted">Enter the OTP sent to your number/email</p>
-            <label class="form-label">OTP</label>
-            <input type="text" class="form-control" id="otp" placeholder="6-digit OTP" maxlength="6" required>
-          </div>
-          <button type="submit" class="btn btn-primary w-100">Verify OTP</button>
-          <button type="button" class="btn btn-secondary w-100 mt-2" id="backBtn">Back</button>
-        </form>
-      </div>
-
-    </div>
-  </div>
+</div>
 </div>
 
 <!-- CATEGORY ICON ROW -->
@@ -161,7 +764,7 @@ text-align:center;font-size:14px;cursor:pointer;
 </div>
 
 <!-- BOOKS SECTION -->
-<div id="books" class="container my-4">
+<div id="books" class="container">
   <div class="row">
     <div class="col-md-3 mb-4">
     <div class="product-card">
@@ -187,8 +790,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹583</div>
         <div class="offer">20% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('C Programming Book', '₹583')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('C Programming Book', '₹583',20)">
           Add to Cart
         </button>
 
@@ -219,8 +822,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹390</div>
         <div class="offer">15% Off</div>
         
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('C++ Programming Book', '₹390')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('C++ Programming Book', '₹390',15)">
           Add to Cart
         </button>
 
@@ -251,8 +854,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹1,597</div>
         <div class="offer">20% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Python Programming Book', '₹1,597')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Python Programming Book', '₹1,597',20)">
           Add to Cart
         </button>
 
@@ -283,8 +886,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹1,662</div>
         <div class="offer">20% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Java Programming Book', '₹1,662')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Java Programming Book', '₹1,662',20)">
           Add to Cart
         </button>
 
@@ -315,15 +918,14 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹250</div>
         <div class="offer">5% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Pride and Prejudice', '₹250')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Pride and Prejudice', '₹250',5)">
           Add to Cart
         </button>
 
       </div>
     </div>
 
-    
     <div class="col-md-3 mb-4">
       <div class="product-card">
 
@@ -348,8 +950,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹350</div>
         <div class="offer">10% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Great expectations', '₹350')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Great expectations', '₹350',10)">
           Add to Cart
         </button>
 
@@ -380,8 +982,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹295</div>
         <div class="offer">5% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('To kill a mockingbird', '₹295')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('To kill a mockingbird', '₹295',5)">
           Add to Cart
         </button>
 
@@ -412,8 +1014,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹399</div>
         <div class="offer">10% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('The Alchemist', '₹399')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('The Alchemist', '₹399',10)">
           Add to Cart
         </button>
 
@@ -444,8 +1046,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹1,623</div>
         <div class="offer">22% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('SL Arora class 12 physics book volume 1 & 2', '₹1,623')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('SL Arora class 12 physics book volume 1 & 2', '₹1,623',22)">
           Add to Cart
         </button>
 
@@ -476,8 +1078,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹1,576</div>
         <div class="offer">25% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('SL Arora class 11 physics book volume 1 & 2', '₹1,576')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('SL Arora class 11 physics book volume 1 & 2', '₹1,576',25)">
           Add to Cart
         </button>
 
@@ -508,8 +1110,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹300</div>
         <div class="offer">10% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('IELTS Preparation Book with answers with audio', '₹300')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('IELTS Preparation Book with answers with audio', '₹300',10)">
           Add to Cart
         </button>
 
@@ -540,8 +1142,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹405</div>
         <div class="offer">10% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('IELTS 19 Academic [paperback] Cambridge University', '₹405')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('IELTS 19 Academic [paperback] Cambridge University', '₹405',10)">
           Add to Cart
         </button>
 
@@ -578,8 +1180,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹249</div>
         <div class="offer">10% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Notebook Combo Pack - 4 Notebooks', '₹249')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Notebook Combo Pack - 4 Notebooks', '₹249',10)">
           Add to Cart
         </button>
 
@@ -610,8 +1212,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹119</div>
         <div class="offer">5% Off</div>
         
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Notebook Combo Pack - 2 Notebooks', '₹119')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Notebook Combo Pack - 2 Notebooks', '₹119',5)">
           Add to Cart
         </button>
 
@@ -642,8 +1244,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹49</div>
         <div class="offer">5% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Notebook', '₹49')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Notebook', '₹49',5)">
           Add to Cart
         </button>
 
@@ -674,8 +1276,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹45</div>
         <div class="offer">5% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Notebook', '₹45')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Notebook', '₹45',5)">
           Add to Cart
         </button>
 
@@ -706,8 +1308,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹30</div>
         <div class="offer">5% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Mechanical Pencil', '₹30')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Mechanical Pencil', '₹30',5)">
           Add to Cart
         </button>
 
@@ -738,8 +1340,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹80</div>
         <div class="offer">8% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Mechanical Pencil Pack of 8', '₹80')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Mechanical Pencil Pack of 8', '₹80',8)">
           Add to Cart
         </button>
 
@@ -770,8 +1372,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹20</div>
         <div class="offer">2% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Pen', '₹20')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Pen', '₹20',2)">
           Add to Cart
         </button>
 
@@ -802,8 +1404,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹100</div>
         <div class="offer">5% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Pen Pack of 10', '₹100')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Pen Pack of 10', '₹100',5)">
           Add to Cart
         </button>
 
@@ -834,8 +1436,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹10</div>
         <div class="offer">2% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Eraser', '₹10')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Eraser', '₹10',2)">
           Add to Cart
         </button>
 
@@ -866,8 +1468,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹100</div>
         <div class="offer">5% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Eraser Pack of 10', '₹100')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Eraser Pack of 10', '₹100',5)">
           Add to Cart
         </button>
 
@@ -898,8 +1500,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹10</div>
         <div class="offer">2% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Marker', '₹10')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Marker', '₹10',2)">
           Add to Cart
         </button>
 
@@ -930,8 +1532,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹100</div>
         <div class="offer">5% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Marker Pack of 10', '₹100')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Marker Pack of 10', '₹100',5)">
           Add to Cart
         </button>
 
@@ -969,8 +1571,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹250</div>
         <div class="offer">5% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Sketch Pen Pack of 10', '₹250')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Sketch Pen Pack of 10', '₹250',5)">
           Add to Cart
         </button>
 
@@ -984,25 +1586,25 @@ text-align:center;font-size:14px;cursor:pointer;
              class="w-100"
              style="cursor:pointer"
              onclick="openProduct(
-               'Pastel brush nib sketch pen pack of 14',
+               'Pastel brush sketch pen pack of 14',
                '₹110',
                'https://rukminim1.flixcart.com/image/1528/1528/xif0q/sketch-pen/k/r/p/super-soft-tip-pastel-shades-brush-pen-set-with-xo-ball-pen-doms-original-imagzzgkqpjhvnqs.jpeg?q=90'
              )">
 
         <h6 style="cursor:pointer"
             onclick="openProduct(
-              'Pastel brush nib sketch pen pack of 14',
+              'Pastel brush sketch pen pack of 14',
               '₹110',
               'https://rukminim1.flixcart.com/image/1528/1528/xif0q/sketch-pen/k/r/p/super-soft-tip-pastel-shades-brush-pen-set-with-xo-ball-pen-doms-original-imagzzgkqpjhvnqs.jpeg?q=90'
             )">
-          Pastel brush nib sketch pen pack of 14
+          Pastel brush sketch pen pack of 14
         </h6>
 
         <div class="price">₹110</div>
         <div class="offer">5% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Pastel brush nib sketch pen pack of 14', '₹110')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Pastel brush sketch pen pack of 14', '₹110',5)">
           Add to Cart
         </button>
 
@@ -1033,8 +1635,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹310</div>
         <div class="offer">10% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('50 shades connector sketch pen', '₹310')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('50 shades connector sketch pen', '₹310',10)">
           Add to Cart
         </button>
 
@@ -1065,8 +1667,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹130</div>
         <div class="offer">10% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Twin tip sketch pen pack of 10 shades', '₹130')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Twin tip sketch pen pack of 10 shades', '₹130',10)">
           Add to Cart
         </button>
 
@@ -1080,25 +1682,25 @@ text-align:center;font-size:14px;cursor:pointer;
              class="w-100"
              style="cursor:pointer"
              onclick="openProduct(
-               'Water Colour Tube 12 Shades - 5ml ',
+               'Student Water Colour Tube 12 Shades - 5ml ',
                '₹106',
                'https://rukminim1.flixcart.com/image/1528/1528/ktlu9ow0/paint/f/q/u/12-5-water-colour-tube-12-shades-doms-original-imag6wtdtf3sqxhc.jpeg?q=90'
              )">
 
         <h6 style="cursor:pointer"
             onclick="openProduct(
-              'Water Colour Tube 12 Shades - 5ml',
+              'Student Water Colour Tube 12 Shades - 5ml ',
               '₹106',
               'https://rukminim1.flixcart.com/image/1528/1528/ktlu9ow0/paint/f/q/u/12-5-water-colour-tube-12-shades-doms-original-imag6wtdtf3sqxhc.jpeg?q=90'
             )">
-          Water Colour Tube 12 Shades - 5ml 
+          Student Water Colour Tube 12 Shades - 5ml 
         </h6>
 
         <div class="price">₹106</div>
         <div class="offer">10% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Water Colour Tube 12 Shades - 5ml ', '₹106')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Student Water Colour Tube 12 Shades - 5ml ', '₹106',10)">
           Add to Cart
         </button>
 
@@ -1129,8 +1731,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹200</div>
         <div class="offer">10% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Student Water Colour Cakes - 24 Shades', '₹200')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Student Water Colour Cakes - 24 Shades', '₹200',10)">
           Add to Cart
         </button>
 
@@ -1144,25 +1746,25 @@ text-align:center;font-size:14px;cursor:pointer;
              class="w-100"
              style="cursor:pointer"
              onclick="openProduct(
-               'Artist Water Colour - 24 Shades',
+               'Student Artist Water Colour - 24 Shades',
                '₹465',
                'https://rukminim2.flixcart.com/image/1528/1528/kuczmvk0/paint/d/y/q/18-5-student-water-color-tube-kokuyo-camel-original-imag7g4hfcg4hbkc.jpeg?q=90'
              )">
 
         <h6 style="cursor:pointer"
             onclick="openProduct(
-              'Artist Water Colour - 24 Shades',
+              'Student Artist Water Colour - 24 Shades',
               '₹465',
               'https://rukminim2.flixcart.com/image/1528/1528/kuczmvk0/paint/d/y/q/18-5-student-water-color-tube-kokuyo-camel-original-imag7g4hfcg4hbkc.jpeg?q=90'
             )">
-          Artist Water Colour - 24 Shades
+          Student Artist Water Colour - 24 Shades
         </h6>
 
         <div class="price">₹465</div>
         <div class="offer">10% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Artist Water Colour - 24 Shades', '₹465')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Student Artist Water Colour - 24 Shades', '₹465',10)">
           Add to Cart
         </button>
 
@@ -1193,8 +1795,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹137</div>
         <div class="offer">10% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Student Water Colour Tubes - 18 Shades', '₹137')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Student Water Colour Tubes - 18 Shades', '₹137',10)">
           Add to Cart
         </button>
 
@@ -1225,8 +1827,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹162</div>
         <div class="offer">10% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('JoyDesk A4 100 Coloured Sheets Paper Crafting Tool', '₹162')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('JoyDesk A4 100 Coloured Sheets Paper Crafting Tool', '₹162',10)">
           Add to Cart
         </button>
 
@@ -1257,8 +1859,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹135</div>
         <div class="offer">10% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('100 pcs A4 Size Color Sheets (10 Sheets Each Color)', '₹135')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('100 pcs A4 Size Color Sheets (10 Sheets Each Color)', '₹135',10)">
           Add to Cart
         </button>
 
@@ -1272,25 +1874,25 @@ text-align:center;font-size:14px;cursor:pointer;
              class="w-100"
              style="cursor:pointer"
              onclick="openProduct(
-               'Water Color Paper Small Size - 300 GSM 25% Cotton A5 Size (Set of 10, White)',
+               'Water Color Paper Small Size - 300 GSM 25% Cotton A5 Size (Set of 10)',
                '₹160',
                'https://rukminim2.flixcart.com/image/1528/1528/kr0ynbk0/paper/o/t/z/artist-grade-cotton-300gsm-cold-pressed-water-color-heavy-sheets-original-imag4wsw6famqxfs.jpeg?q=90'
              )">
 
         <h6 style="cursor:pointer"
             onclick="openProduct(
-              'Water Color Paper Small Size - 300 GSM 25% Cotton A5 Size (Set of 10, White)',
+              'Water Color Paper Small Size - 300 GSM 25% Cotton A5 Size (Set of 10)',
               '₹160',
               'https://rukminim2.flixcart.com/image/1528/1528/kr0ynbk0/paper/o/t/z/artist-grade-cotton-300gsm-cold-pressed-water-color-heavy-sheets-original-imag4wsw6famqxfs.jpeg?q=90'
             )">
-          Water Color Paper Small Size - 300 GSM 25% Cotton A5 Size (Set of 10, White)
+          Water Color Paper Small Size - 300 GSM 25% Cotton A5 Size (Set of 10)
         </h6>
 
         <div class="price">₹160</div>
         <div class="offer">10% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Water Color Paper Small Size - 300 GSM 25% Cotton A5 Size (Set of 10, White)', '₹160')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Water Color Paper Small Size - 300 GSM 25% Cotton A5 Size (Set of 10)', '₹160',10)">
           Add to Cart
         </button>
 
@@ -1304,25 +1906,25 @@ text-align:center;font-size:14px;cursor:pointer;
              class="w-100"
              style="cursor:pointer"
              onclick="openProduct(
-               'Holographic Cards 6 Shiny Metallic Colors A4 Size 250 GSM (Pack of 30 Sheets) ',
+               'Holographic Cards 6 Shiny Metallic Colors A4 Size 250 GSM (Pack of 30)',
                '₹222',
                'https://rukminim2.flixcart.com/image/1528/1528/ky1vl3k0/paper/w/8/j/holographic-cards-6-shiny-metallic-colors-a4-size-250-gsm-pack-original-imagadg5qgrt4h45.jpeg?q=90'
              )">
 
         <h6 style="cursor:pointer"
             onclick="openProduct(
-              'Holographic Cards 6 Shiny Metallic Colors A4 Size 250 GSM (Pack of 30 Sheets) ',
+              'Holographic Cards 6 Shiny Metallic Colors A4 Size 250 GSM (Pack of 30)',
               '₹222',
               'https://rukminim2.flixcart.com/image/1528/1528/ky1vl3k0/paper/w/8/j/holographic-cards-6-shiny-metallic-colors-a4-size-250-gsm-pack-original-imagadg5qgrt4h45.jpeg?q=90'
             )">
-          Holographic Cards 6 Shiny Metallic Colors A4 Size 250 GSM (Pack of 30 Sheets) 
+          Holographic Cards 6 Shiny Metallic Colors A4 Size 250 GSM (Pack of 30)
         </h6>
 
         <div class="price">₹222</div>
         <div class="offer">10% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Holographic Cards 6 Shiny Metallic Colors A4 Size 250 GSM (Pack of 30 Sheets) ', '₹222')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Holographic Cards 6 Shiny Metallic Colors A4 Size 250 GSM (Pack of 30)', '₹222',10)">
           Add to Cart
         </button>
 
@@ -1353,8 +1955,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹48</div>
         <div class="offer">5% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('FEVICOL MR 200g Craft Glue, Ultimate Adhesive for DIY Art & Craft', '₹48')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('FEVICOL MR 200g Craft Glue, Ultimate Adhesive for DIY Art & Craft', '₹48',5)">
           Add to Cart
         </button>
 
@@ -1385,8 +1987,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹120</div>
         <div class="offer">10 % Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('FEVICOL Combo Offer 20ml Craft Glue Pack Of 10', '₹120')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('FEVICOL Combo Offer 20ml Craft Glue Pack Of 10', '₹120',10)">
           Add to Cart
         </button>
 
@@ -1417,8 +2019,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹760</div>
         <div class="offer">15% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('APT-MT05 150 Watt Adjustable Temperature Corded Glue Gun', '₹760')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('APT-MT05 150 Watt Adjustable Temperature Corded Glue Gun', '₹760',15)">
           Add to Cart
         </button>
 
@@ -1449,8 +2051,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹300</div>
         <div class="offer">10% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('ATC090SBGT 20W Hot Glue Gun With 50Pcs Glue Sticks', '₹300')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('ATC090SBGT 20W Hot Glue Gun With 50Pcs Glue Sticks', '₹300',10)">
           Add to Cart
         </button>
 
@@ -1481,8 +2083,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹120</div>
         <div class="offer">10% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('FLAIR Glitter Sparkle 1.0mm 10 Glitter Assorted colours', '₹120')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('FLAIR Glitter Sparkle 1.0mm 10 Glitter Assorted colours', '₹120',10)">
           Add to Cart
         </button>
 
@@ -1513,8 +2115,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹140</div>
         <div class="offer">10% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Kandle 1.0mm 12Pcs Glitter Gel Pens Art Marker', '₹140')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Kandle 1.0mm 12Pcs Glitter Gel Pens Art Marker', '₹140',10)">
           Add to Cart
         </button>
 
@@ -1545,8 +2147,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹140</div>
         <div class="offer">10% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Adoere 1.0mm 24 Pc Gel Pens set Color gel pens', '₹140')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Adoere 1.0mm 24 Pc Gel Pens set Color gel pens', '₹140',10)">
           Add to Cart
         </button>
 
@@ -1577,8 +2179,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹260</div>
         <div class="offer">10% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('PEACORA 1.0mm 48Pc Gel Pens set Color gel pen', '₹260')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('PEACORA 1.0mm 48Pc Gel Pens set Color gel pen', '₹260',10)">
           Add to Cart
         </button>
 
@@ -1616,8 +2218,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹300</div>
         <div class="offer">10% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('A4 Unruled A4 75 gsm A4 paper (Set of 1, White)', '₹300')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('A4 Unruled A4 75 gsm A4 paper (Set of 1, White)', '₹300',10)">
           Add to Cart
         </button>
 
@@ -1648,8 +2250,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹400</div>
         <div class="offer">15% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('TNPL Paper Unruled A4 80 gsm A4 paper (Set of 1, White)', '₹400')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('TNPL Paper Unruled A4 80 gsm A4 paper (Set of 1, White)', '₹400',15)">
           Add to Cart
         </button>
 
@@ -1680,8 +2282,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹250</div>
         <div class="offer">10% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('JK Easy Copier Paper - A4 70 GSM, 1 Ream (Set of 1, White)', '₹250')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('JK Easy Copier Paper - A4 70 GSM, 1 Ream (Set of 1, White)', '₹250',10)">
           Add to Cart
         </button>
 
@@ -1712,8 +2314,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹380</div>
         <div class="offer">15% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('B2B Copier Printing Sheets Unruled A4 70 gsm A4 paper (Set of 1, White)', '₹380')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('B2B Copier Printing Sheets Unruled A4 70 gsm A4 paper (Set of 1, White)', '₹380',15)">
           Add to Cart
         </button>
 
@@ -1744,8 +2346,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹200</div>
         <div class="offer">10% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Chart Paper Pink 3, Yellow 3 Pc 70x55 cm 180 GSM Pack of 6 Sheets', '₹200')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Chart Paper Pink 3, Yellow 3 Pc 70x55 cm 180 GSM Pack of 6 Sheets', '₹200',10)">
           Add to Cart
         </button>
 
@@ -1759,25 +2361,25 @@ text-align:center;font-size:14px;cursor:pointer;
              class="w-100"
              style="cursor:pointer"
              onclick="openProduct(
-               'Chart Paper Sky Blue Color 70x55 cm 180 GSM Pack of 5 for Art and Craft Project',
+               'Chart Paper Sky Blue Color 70x55 cm 180 GSM Pack of 5',
                '₹225',
                'https://rukminim2.flixcart.com/image/1528/1528/xif0q/paper/b/c/w/art-and-craft-projects-skyblue-colour-one-side-smooth-one-side-original-imahgh7cyjnnpxwh.jpeg?q=90'
              )">
 
         <h6 style="cursor:pointer"
             onclick="openProduct(
-              'Chart Paper Sky Blue Color 70x55 cm 180 GSM Pack of 5 for Art and Craft Project',
+              'Chart Paper Sky Blue Color 70x55 cm 180 GSM Pack of 5',
               '₹225',
               'https://rukminim2.flixcart.com/image/1528/1528/xif0q/paper/b/c/w/art-and-craft-projects-skyblue-colour-one-side-smooth-one-side-original-imahgh7cyjnnpxwh.jpeg?q=90'
             )">
-          Chart Paper Sky Blue Color 70x55 cm 180 GSM Pack of 5 for Art and Craft Project
+          Chart Paper Sky Blue Color 70x55 cm 180 GSM Pack of 5
         </h6>
 
         <div class="price">₹225</div>
         <div class="offer">10% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Chart Paper Sky Blue Color 70x55 cm 180 GSM Pack of 5 for Art and Craft Project', '₹225')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Chart Paper Sky Blue Color 70x55 cm 180 GSM Pack of 5', '₹225',10)">
           Add to Cart
         </button>
 
@@ -1808,8 +2410,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹300</div>
         <div class="offer">10% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('KODAK A4 High Glossy (20 Sheets) A4 230 gsm Photo Paper (Set of 1, White)', '₹300')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('KODAK A4 High Glossy (20 Sheets) A4 230 gsm Photo Paper (Set of 1, White)', '₹300',10)">
           Add to Cart
         </button>
 
@@ -1840,8 +2442,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹300</div>
         <div class="offer">10% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Klik Unruled A4 180 gsm Photo Paper (Set of 1, White)', '₹300')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Klik Unruled A4 180 gsm Photo Paper (Set of 1, White)', '₹300',10)">
           Add to Cart
         </button>
 
@@ -1855,25 +2457,25 @@ text-align:center;font-size:14px;cursor:pointer;
              class="w-100"
              style="cursor:pointer"
              onclick="openProduct(
-               'Epson L3250 Multi-function WiFi Color Ink Tank Printer (4 Ink Bottles Included)',
+               'Epson L3250 Multi-function WiFi Color Ink Tank Printer (Ink Bottles Included)',
                '₹14,300',
                'https://rukminim2.flixcart.com/image/1528/1528/xif0q/printer/e/k/r/-original-imagqsmzectcgpry.jpeg?q=90'
              )">
 
         <h6 style="cursor:pointer"
             onclick="openProduct(
-              'Epson L3250 Multi-function WiFi Color Ink Tank Printer (4 Ink Bottles Included)',
+              'Epson L3250 Multi-function WiFi Color Ink Tank Printer (Ink Bottles Included)',
               '₹14,300',
               'https://rukminim2.flixcart.com/image/1528/1528/xif0q/printer/e/k/r/-original-imagqsmzectcgpry.jpeg?q=90'
             )">
-          Epson L3250 Multi-function WiFi Color Ink Tank Printer (4 Ink Bottles Included)
+          Epson L3250 Multi-function WiFi Color Ink Tank Printer (Ink Bottles Included)
         </h6>
 
         <div class="price">₹14,300</div>
         <div class="offer">20% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Epson L3250 Multi-function WiFi Color Ink Tank Printer (4 Ink Bottles Included)', '₹14,300')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Epson L3250 Multi-function WiFi Color Ink Tank Printer (Ink Bottles Included)', '₹14,300',20)">
           Add to Cart
         </button>
 
@@ -1904,8 +2506,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹5,600</div>
         <div class="offer">15% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Canon PIXMA E3370 Multi-function WiFi Color Inkjet Printer (Ink Cartridge)', '₹5,600')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Canon PIXMA E3370 Multi-function WiFi Color Inkjet Printer (Ink Cartridge)', '₹5,600',15)">
           Add to Cart
         </button>
 
@@ -1937,8 +2539,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹13,000</div>
         <div class="offer">24% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('HP Smart All In One 589 Multi-function WiFi Color Ink Tank Printer', '₹13,000')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('HP Smart All In One 589 Multi-function WiFi Color Ink Tank Printer', '₹13,000',24)">
           Add to Cart
         </button>
 
@@ -1969,8 +2571,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹19,000</div>
         <div class="offer">10% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Epson M2140 Multi-function Monochrome Ink Tank Printer', '₹19,000')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Epson M2140 Multi-function Monochrome Ink Tank Printer', '₹19,000',10)">
           Add to Cart
         </button>
 
@@ -2033,8 +2635,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹400</div>
         <div class="offer">10% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('Needle Ink Refill with Suction Tool for Cartridge Printers 100 gms', '₹400')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Needle Ink Refill with Suction Tool for Cartridge Printers 100 gms', '₹400',10)">
           Add to Cart
         </button>
 
@@ -2065,8 +2667,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹540</div>
         <div class="offer">10% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('HP GT52 for GT5810/GT5820/Ink Tank-310, 410 Series Cyan Ink Bottle', '₹540')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('HP GT52 for GT5810/GT5820/Ink Tank-310, 410 Series Cyan Ink Bottle', '₹540',10)">
           Add to Cart
         </button>
 
@@ -2097,40 +2699,8 @@ text-align:center;font-size:14px;cursor:pointer;
         <div class="price">₹640</div>
         <div class="offer">10% Off</div>
 
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('HP GT52 for HP 315, 316, 319, 416 Magenta Ink Bottle', '₹640')">
-          Add to Cart
-        </button>
-
-      </div>
-    </div>
-
-                                                              <div class="col-md-3 mb-4">
-      <div class="product-card">
-
-        <img src="https://rukminim2.flixcart.com/image/1528/1528/xif0q/inktoner/m/g/8/w1660a-hp-original-imah3kezsqb4hzzf.jpeg?q=90"
-             class="w-100"
-             style="cursor:pointer"
-             onclick="openProduct(
-               'HP 166A LaserJet Black Ink Toner',
-               '₹4,900',
-               'https://rukminim2.flixcart.com/image/1528/1528/xif0q/inktoner/m/g/8/w1660a-hp-original-imah3kezsqb4hzzf.jpeg?q=90'
-             )">
-
-        <h6 style="cursor:pointer"
-            onclick="openProduct(
-              'HP 166A LaserJet Black Ink Toner',
-              '₹4,900',
-              'https://rukminim2.flixcart.com/image/1528/1528/xif0q/inktoner/m/g/8/w1660a-hp-original-imah3kezsqb4hzzf.jpeg?q=90'
-            )">
-          HP 166A LaserJet Black Ink Toner 
-        </h6>
-
-        <div class="price">₹4,900</div>
-        <div class="offer">15% Off</div>
-
-        <button class="btn btn-warning w-100 mt-2"
-                onclick="addToCart('HP 166A LaserJet Black Ink Toner', '₹4,900')">
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('HP GT52 for HP 315, 316, 319, 416 Magenta Ink Bottle', '₹640',10)">
           Add to Cart
         </button>
 
@@ -2142,8 +2712,519 @@ text-align:center;font-size:14px;cursor:pointer;
 
 <!-- COLLEGE SECTION -->
 <div id="college" class="container my-4">
-
 <div class="row">
+  <div class="col-md-3 mb-4">
+      <div class="product-card ">
+
+        <img src="https://rukminim2.flixcart.com/image/1528/1528/xif0q/calculator/4/l/m/-original-imagy3myujctgzjn.jpeg?q=90"
+             class="w-100"
+             style="cursor:pointer"
+             onclick="openProduct(
+               'FLAIR Electronic Calculator FC - 991MS Electronic Scientific  Calculator',
+               '₹500',
+               'https://rukminim2.flixcart.com/image/1528/1528/xif0q/calculator/4/l/m/-original-imagy3myujctgzjn.jpeg?q=90'
+             )">
+
+        <h6 style="cursor:pointer"
+            onclick="openProduct(
+              'FLAIR Electronic Calculator FC - 991MS Electronic Scientific  Calculator',
+              '₹500',
+              'https://rukminim2.flixcart.com/image/1528/1528/xif0q/calculator/4/l/m/-original-imagy3myujctgzjn.jpeg?q=90'
+            )">
+          FLAIR Electronic Calculator FC - 991MS Electronic Scientific  Calculator
+        </h6>
+
+        <div class="price">₹500</div>
+        <div class="offer">15% Off</div>
+
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('FLAIR Electronic Calculator FC - 991MS Electronic Scientific  Calculator', '₹500',15)">
+          Add to Cart
+        </button>
+
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+      <div class="product-card">
+
+        <img src="https://rukminim2.flixcart.com/image/1528/1528/k2c6rgw0/calculator/h/e/w/casio-scientific-fx-82ms-original-imafgc6xh5aunehx.jpeg?q=90"
+             class="w-100"
+             style="cursor:pointer"
+             onclick="openProduct(
+               'CASIO FX-82MS Scientific Scientific  Calculator (12 Digit)',
+               '₹600',
+               'https://rukminim2.flixcart.com/image/1528/1528/k2c6rgw0/calculator/h/e/w/casio-scientific-fx-82ms-original-imafgc6xh5aunehx.jpeg?q=90'
+             )">
+
+        <h6 style="cursor:pointer"
+            onclick="openProduct(
+              'CASIO FX-82MS Scientific Scientific  Calculator (12 Digit)',
+              '₹600',
+              'https://rukminim2.flixcart.com/image/1528/1528/k2c6rgw0/calculator/h/e/w/casio-scientific-fx-82ms-original-imafgc6xh5aunehx.jpeg?q=90'
+            )">
+          CASIO FX-82MS Scientific Scientific  Calculator (12 Digit)
+        </h6>
+
+        <div class="price">₹600</div>
+        <div class="offer">10% Off</div>
+
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('CASIO FX-82MS Scientific Scientific  Calculator (12 Digit)', '₹600',10)">
+          Add to Cart
+        </button>
+
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+      <div class="product-card">
+
+        <img src="https://rukminim2.flixcart.com/image/1528/1528/xif0q/calculator/q/o/o/orpat-ot-512gt-calculator-orpat-ot-512gt-calculator-black-off-original-imagmjcugg4ptxej.jpeg?q=90"
+             class="w-100"
+             style="cursor:pointer"
+             onclick="openProduct(
+               'Orpat Ajanta OT - 512GT ORPAT OT-512GT Financial  Calculator (12 Digit)',
+               '₹600',
+               'https://rukminim2.flixcart.com/image/1528/1528/xif0q/calculator/q/o/o/orpat-ot-512gt-calculator-orpat-ot-512gt-calculator-black-off-original-imagmjcugg4ptxej.jpeg?q=90'
+             )">
+
+        <h6 style="cursor:pointer"
+            onclick="openProduct(
+              'Orpat Ajanta OT - 512GT ORPAT OT-512GT Financial  Calculator (12 Digit)',
+              '₹600',
+              'https://rukminim2.flixcart.com/image/1528/1528/xif0q/calculator/q/o/o/orpat-ot-512gt-calculator-orpat-ot-512gt-calculator-black-off-original-imagmjcugg4ptxej.jpeg?q=90'
+            )">
+          Orpat Ajanta OT - 512GT ORPAT OT-512GT Financial  Calculator (12 Digit)
+        </h6>
+
+        <div class="price">₹600</div>
+        <div class="offer">10% Off</div>
+
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Orpat Ajanta OT - 512GT ORPAT OT-512GT Financial  Calculator (12 Digit)', '₹600',10)">
+          Add to Cart
+        </button>
+
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+      <div class="product-card">
+
+        <img src="https://rukminim2.flixcart.com/image/1528/1528/jpu324w0/calculator/a/c/b/casio-desktop-mj-12d-original-imafbzm3sxtwt6xu.jpeg?q=90"
+             class="w-100"
+             style="cursor:pointer"
+             onclick="openProduct(
+               'CASIO MJ-12D-BK Desktop Basic Calculator (12 Digit)',
+               '₹500',
+               'https://rukminim2.flixcart.com/image/1528/1528/jpu324w0/calculator/a/c/b/casio-desktop-mj-12d-original-imafbzm3sxtwt6xu.jpeg?q=90'
+             )">
+
+        <h6 style="cursor:pointer"
+            onclick="openProduct(
+              'CASIO MJ-12D-BK Desktop Basic Calculator (12 Digit)',
+              '₹500',
+              'https://rukminim2.flixcart.com/image/1528/1528/jpu324w0/calculator/a/c/b/casio-desktop-mj-12d-original-imafbzm3sxtwt6xu.jpeg?q=90'
+            )">
+          CASIO MJ-12D-BK Desktop Basic Calculator (12 Digit)
+        </h6>
+
+        <div class="price">₹500</div>
+        <div class="offer">15% Off</div>
+
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('CASIO MJ-12D-BK Desktop Basic Calculator (12 Digit)', '₹500',15)">
+          Add to Cart
+        </button>
+
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+      <div class="product-card">
+
+        <img src="https://rukminim2.flixcart.com/image/1528/1528/xif0q/id-card-holder-tag/c/r/3/slide-in-5-4-1-8-6-combo-pack-of-one-brown-pu-leather-badge-original-imah5f84c88khahp.jpeg?q=90"
+             class="w-100"
+             style="cursor:pointer"
+             onclick="openProduct(
+               'Plastic ID Badge Holder',
+               '₹100',
+               'https://rukminim2.flixcart.com/image/1528/1528/xif0q/id-card-holder-tag/c/r/3/slide-in-5-4-1-8-6-combo-pack-of-one-brown-pu-leather-badge-original-imah5f84c88khahp.jpeg?q=90'
+             )">
+
+        <h6 style="cursor:pointer"
+            onclick="openProduct(
+              'Plastic ID Badge Holder',
+              '₹100',
+              'https://rukminim2.flixcart.com/image/1528/1528/xif0q/id-card-holder-tag/c/r/3/slide-in-5-4-1-8-6-combo-pack-of-one-brown-pu-leather-badge-original-imah5f84c88khahp.jpeg?q=90'
+            )">
+          Plastic ID Badge Holder
+        </h6>
+
+        <div class="price">₹100</div>
+        <div class="offer">10% Off</div>
+
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Plastic ID Badge Holder', '₹100',10)">
+          Add to Cart
+        </button>
+
+      </div>
+    </div>
+
+        <div class="col-md-3 mb-4">
+      <div class="product-card">
+
+        <img src="https://rukminim2.flixcart.com/image/1528/1528/kq9ta4w0/card-holder/b/f/g/id-card-holder-for-office-id-card-holder-for-women-id-card-original-imag4bkg9mkuspuh.jpeg?q=90"
+             class="w-100"
+             style="cursor:pointer"
+             onclick="openProduct(
+               '1 Card Holder (Set of 2, Blue)',
+               '₹150',
+               'https://rukminim2.flixcart.com/image/1528/1528/kq9ta4w0/card-holder/b/f/g/id-card-holder-for-office-id-card-holder-for-women-id-card-original-imag4bkg9mkuspuh.jpeg?q=90'
+             )">
+
+        <h6 style="cursor:pointer"
+            onclick="openProduct(
+              '1 Card Holder (Set of 2, Blue)',
+              '₹150',
+              'https://rukminim2.flixcart.com/image/1528/1528/kq9ta4w0/card-holder/b/f/g/id-card-holder-for-office-id-card-holder-for-women-id-card-original-imag4bkg9mkuspuh.jpeg?q=90'
+            )">
+          1 Card Holder (Set of 2, Blue)
+        </h6>
+
+        <div class="price">₹150</div>
+        <div class="offer">10% Off</div>
+
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('1 Card Holder (Set of 2, Blue)', '₹150',10)">
+          Add to Cart
+        </button>
+
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+      <div class="product-card">
+
+        <img src="https://rukminim2.flixcart.com/image/1528/1528/xif0q/id-card-holder-tag/m/i/u/slot-10-5-10-id-card-holders-for-office-id-cards-black-pack-of-5-original-imaghk2auph8jmrj.jpeg?q=90"
+             class="w-100"
+             style="cursor:pointer"
+             onclick="openProduct(
+               'Plastic ID Badge Holder (Pack of 5)',
+               '₹260',
+               'https://rukminim2.flixcart.com/image/1528/1528/xif0q/id-card-holder-tag/m/i/u/slot-10-5-10-id-card-holders-for-office-id-cards-black-pack-of-5-original-imaghk2auph8jmrj.jpeg?q=90'
+             )">
+
+        <h6 style="cursor:pointer"
+            onclick="openProduct(
+              'Plastic ID Badge Holder (Pack of 5)',
+              '₹260',
+              'https://rukminim2.flixcart.com/image/1528/1528/xif0q/id-card-holder-tag/m/i/u/slot-10-5-10-id-card-holders-for-office-id-cards-black-pack-of-5-original-imaghk2auph8jmrj.jpeg?q=90'
+            )">
+          Plastic ID Badge Holder (Pack of 5)
+        </h6>
+
+        <div class="price">₹260</div>
+        <div class="offer">10% Off</div>
+
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Plastic ID Badge Holder (Pack of 5)', '₹260',10)">
+          Add to Cart
+        </button>
+
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+      <div class="product-card">
+
+        <img src="https://rukminim2.flixcart.com/image/1528/1528/kqco5u80/id-card-holder-tag/c/j/r/1-red-id-card-holder-for-men-stylish-id-card-holder-for-school-original-imag4dkd7jwpfkgh.jpeg?q=90"
+             class="w-100"
+             style="cursor:pointer"
+             onclick="openProduct(
+               'Stainless Steel ID Badge Holder',
+               '₹110',
+               'https://rukminim2.flixcart.com/image/1528/1528/kqco5u80/id-card-holder-tag/c/j/r/1-red-id-card-holder-for-men-stylish-id-card-holder-for-school-original-imag4dkd7jwpfkgh.jpeg?q=90'
+             )">
+
+        <h6 style="cursor:pointer"
+            onclick="openProduct(
+              'Stainless Steel ID Badge Holder',
+              '₹110',
+              'https://rukminim2.flixcart.com/image/1528/1528/kqco5u80/id-card-holder-tag/c/j/r/1-red-id-card-holder-for-men-stylish-id-card-holder-for-school-original-imag4dkd7jwpfkgh.jpeg?q=90'
+            )">
+          Stainless Steel ID Badge Holder
+        </h6>
+
+        <div class="price">₹110</div>
+        <div class="offer">10% Off</div>
+
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Stainless Steel ID Badge Holder', '₹110',10)">
+          Add to Cart
+        </button>
+
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+      <div class="product-card">
+
+        <img src="https://rukminim2.flixcart.com/image/1528/1528/xif0q/backpack/m/y/z/-original-imahgusud76r755a.jpeg?q=90"
+             class="w-100"
+             style="cursor:pointer"
+             onclick="openProduct(
+               'SAFARI Medium 30 L college Backpack',
+               '₹600',
+               'https://rukminim2.flixcart.com/image/1528/1528/xif0q/backpack/m/y/z/-original-imahgusud76r755a.jpeg?q=90'
+             )">
+
+        <h6 style="cursor:pointer"
+            onclick="openProduct(
+              'SAFARI Medium 30 L college Backpack',
+              '₹600',
+              'https://rukminim2.flixcart.com/image/1528/1528/xif0q/backpack/m/y/z/-original-imahgusud76r755a.jpeg?q=90'
+            )">
+          SAFARI Medium 30 L college Backpack 
+        </h6>
+
+        <div class="price">₹600</div>
+        <div class="offer">15% Off</div>
+
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('SAFARI Medium 30 L college Backpack', '₹600',15)">
+          Add to Cart
+        </button>
+
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+      <div class="product-card">
+
+        <img src="https://rukminim2.flixcart.com/image/1528/1528/xif0q/backpack/l/u/i/8-backpack-school-bag-college-bag-office-casual-bag-waterproof-original-imah5vwjffysxjgm.jpeg?q=90"
+             class="w-100"
+             style="cursor:pointer"
+             onclick="openProduct(
+               'SBCOLLECTION Large 35 L college Backpack',
+               '₹700',
+               'https://rukminim2.flixcart.com/image/1528/1528/xif0q/backpack/l/u/i/8-backpack-school-bag-college-bag-office-casual-bag-waterproof-original-imah5vwjffysxjgm.jpeg?q=90'
+             )">
+
+        <h6 style="cursor:pointer"
+            onclick="openProduct(
+              'SBCOLLECTION Large 35 L college Backpack',
+              '₹700',
+              'https://rukminim2.flixcart.com/image/1528/1528/xif0q/backpack/l/u/i/8-backpack-school-bag-college-bag-office-casual-bag-waterproof-original-imah5vwjffysxjgm.jpeg?q=90'
+            )">
+          SBCOLLECTION Large 35 L college Backpack
+        </h6>
+
+        <div class="price">₹700</div>
+        <div class="offer">12% Off</div>
+
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('SBCOLLECTION Large 35 L college Backpack', '₹700',12)">
+          Add to Cart
+        </button>
+
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+      <div class="product-card">
+
+        <img src="https://rukminim2.flixcart.com/image/1528/1528/xif0q/shopsy-backpack/s/f/j/laptop-bag-rr33-laptop-backpack-lynex-men-women-30-original-imahhj3gjxkkbhaf.jpeg?q=90"
+             class="w-100"
+             style="cursor:pointer"
+             onclick="openProduct(
+               'Prolific Medium 25 L college Backpack',
+               '₹400',
+               'https://rukminim2.flixcart.com/image/1528/1528/xif0q/shopsy-backpack/s/f/j/laptop-bag-rr33-laptop-backpack-lynex-men-women-30-original-imahhj3gjxkkbhaf.jpeg?q=90'
+             )">
+
+        <h6 style="cursor:pointer"
+            onclick="openProduct(
+              'Prolific Medium 25 L college Backpack',
+              '₹400',
+              'https://rukminim2.flixcart.com/image/1528/1528/xif0q/shopsy-backpack/s/f/j/laptop-bag-rr33-laptop-backpack-lynex-men-women-30-original-imahhj3gjxkkbhaf.jpeg?q=90'
+            )">
+          Prolific Medium 25 L college Backpack
+        </h6>
+
+        <div class="price">₹400</div>
+        <div class="offer">12% Off</div>
+
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Prolific Medium 25 L college Backpack', '₹400',12)">
+          Add to Cart
+        </button>
+
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+      <div class="product-card">
+
+        <img src="https://rukminim2.flixcart.com/image/1528/1528/xif0q/shopsy-backpack/k/e/i/hp0008-bolb-black-laptop-backpack-hp-men-women-19-original-imahkg9wzgzrfhgu.jpeg?q=90"
+             class="w-100"
+             style="cursor:pointer"
+             onclick="openProduct(
+               'HP Small 20 L college Backpack travel friendly bag',
+               '₹300',
+               'https://rukminim2.flixcart.com/image/1528/1528/xif0q/shopsy-backpack/k/e/i/hp0008-bolb-black-laptop-backpack-hp-men-women-19-original-imahkg9wzgzrfhgu.jpeg?q=90'
+             )">
+
+        <h6 style="cursor:pointer"
+            onclick="openProduct(
+              'HP Small 20 L college Backpack travel friendly bag',
+              '₹300',
+              'https://rukminim2.flixcart.com/image/1528/1528/xif0q/shopsy-backpack/k/e/i/hp0008-bolb-black-laptop-backpack-hp-men-women-19-original-imahkg9wzgzrfhgu.jpeg?q=90'
+            )">
+          HP Small 20 L college Backpack travel friendly bag
+        </h6>
+
+        <div class="price">₹300</div>
+        <div class="offer">10% Off</div>
+
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('HP Small 20 L college Backpack travel friendly bag', '₹300',10)">
+          Add to Cart
+        </button>
+
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+      <div class="product-card">
+
+        <img src="https://rukminim1.flixcart.com/image/1528/1528/xif0q/headphone/m/b/f/-original-imahgnf4tsngaqn8.jpeg?q=90"
+             class="w-100"
+             style="cursor:pointer"
+             onclick="openProduct(
+               'boAt Rockerz 425,25H Battery',
+               '₹1,000',
+               'https://rukminim1.flixcart.com/image/1528/1528/xif0q/headphone/m/b/f/-original-imahgnf4tsngaqn8.jpeg?q=90'
+             )">
+
+        <h6 style="cursor:pointer"
+            onclick="openProduct(
+              'boAt Rockerz 425,25H Battery',
+              '₹1,000',
+              'https://rukminim1.flixcart.com/image/1528/1528/xif0q/headphone/m/b/f/-original-imahgnf4tsngaqn8.jpeg?q=90'
+            )">
+          boAt Rockerz 425,25H Battery
+        </h6>
+
+        <div class="price">₹1,000</div>
+        <div class="offer">10% Off</div>
+
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('boAt Rockerz 425,25H Battery', '₹1,000',10)">
+          Add to Cart
+        </button>
+
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+      <div class="product-card">
+
+        <img src="https://rukminim1.flixcart.com/image/1528/1528/xif0q/headphone/k/d/h/zeb-thunder-max-zeb-whp-7-zebronics-original-imah77zvuchhrnbz.jpeg?q=90"
+             class="w-100"
+             style="cursor:pointer"
+             onclick="openProduct(
+               'ZEBRONICS Thunder Max (ZEB-WHP)',
+               '₹1,300',
+               'https://rukminim1.flixcart.com/image/1528/1528/xif0q/headphone/k/d/h/zeb-thunder-max-zeb-whp-7-zebronics-original-imah77zvuchhrnbz.jpeg?q=90'
+             )">
+
+        <h6 style="cursor:pointer"
+            onclick="openProduct(
+              'ZEBRONICS Thunder Max (ZEB-WHP)',
+              '₹1,300',
+              'https://rukminim1.flixcart.com/image/1528/1528/xif0q/headphone/k/d/h/zeb-thunder-max-zeb-whp-7-zebronics-original-imah77zvuchhrnbz.jpeg?q=90'
+            )">
+          ZEBRONICS Thunder Max (ZEB-WHP)
+        </h6>
+
+        <div class="price">₹1,300</div>
+        <div class="offer">10% Off</div>
+
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('ZEBRONICS Thunder Max (ZEB-WHP)', '₹1,300',10)">
+          Add to Cart
+        </button>
+
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+      <div class="product-card">
+
+        <img src="https://gadgetsinnepal.b-cdn.net/wp-content/uploads/2024/01/Fastrack-Reflex-Tunes-featured-image-733x420.jpg"
+             class="w-100"
+             style="cursor:pointer"
+             onclick="openProduct(
+               'Fastrack Reflex Tunes FT3 airpods',
+               '₹2,000',
+               'https://gadgetsinnepal.b-cdn.net/wp-content/uploads/2024/01/Fastrack-Reflex-Tunes-featured-image-733x420.jpg'
+             )">
+
+        <h6 style="cursor:pointer"
+            onclick="openProduct(
+              'Fastrack Reflex Tunes FT3 airpods',
+              '₹2,000',
+              'https://gadgetsinnepal.b-cdn.net/wp-content/uploads/2024/01/Fastrack-Reflex-Tunes-featured-image-733x420.jpg'
+            )">
+          Fastrack Reflex Tunes FT3 airpods
+        </h6>
+
+        <div class="price">₹2,000</div>
+        <div class="offer">10% Off</div>
+
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Fastrack Reflex Tunes FT3 airpods', '₹2,000',10)">
+          Add to Cart
+        </button>
+
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+      <div class="product-card">
+
+        <img src="https://rukminim1.flixcart.com/image/1528/1528/xif0q/headphone/z/l/b/rma-2306-realme-original-imahe6hbzzzgkanp.jpeg?q=90"
+             class="w-100"
+             style="cursor:pointer"
+             onclick="openProduct(
+               'realme Buds T110 (RMA2306)',
+               '₹2,300',
+               'https://rukminim1.flixcart.com/image/1528/1528/xif0q/headphone/z/l/b/rma-2306-realme-original-imahe6hbzzzgkanp.jpeg?q=90'
+             )">
+
+        <h6 style="cursor:pointer"
+            onclick="openProduct(
+              'realme Buds T110 (RMA2306)',
+              '₹2,300',
+              'https://rukminim1.flixcart.com/image/1528/1528/xif0q/headphone/z/l/b/rma-2306-realme-original-imahe6hbzzzgkanp.jpeg?q=90'
+            )">
+          realme Buds T110 (RMA2306)
+        </h6>
+
+        <div class="price">₹2,300</div>
+        <div class="offer">10% Off</div>
+
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('realme Buds T110 (RMA2306)', '₹2,300',10)">
+          Add to Cart
+        </button>
+
+      </div>
+    </div>
+
 </div>
 </div>
 
@@ -2151,6 +3232,390 @@ text-align:center;font-size:14px;cursor:pointer;
 <div id="office" class="container my-4">
 
 <div class="row">
+  <div class="col-md-3 mb-4">
+      <div class="product-card ">
+
+        <img src="https://rukminim2.flixcart.com/image/1528/1528/xif0q/file-folder/z/i/4/-original-imahjzw5ry5aafva.jpeg?q=90"
+             class="w-100"
+             style="cursor:pointer"
+             onclick="openProduct(
+               'Skrill PU Leather A4 / FC File Folder',
+               '₹300',
+               'https://rukminim2.flixcart.com/image/1528/1528/xif0q/file-folder/z/i/4/-original-imahjzw5ry5aafva.jpeg?q=90'
+             )">
+
+        <h6 style="cursor:pointer"
+            onclick="openProduct(
+              'Skrill PU Leather A4 / FC File Folder',
+              '₹300',
+              'https://rukminim2.flixcart.com/image/1528/1528/xif0q/file-folder/z/i/4/-original-imahjzw5ry5aafva.jpeg?q=90'
+            )">
+          Skrill PU Leather A4 / FC File Folder
+        </h6>
+
+        <div class="price">₹300</div>
+        <div class="offer">15% Off</div>
+
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Skrill PU Leather A4 / FC File Folder', '₹300',15)">
+          Add to Cart
+        </button>
+
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+      <div class="product-card ">
+
+        <img src="https://rukminim2.flixcart.com/image/1528/1528/xif0q/file-folder/m/u/i/sps-premium-pu-leather-file-folder-20-sleeves-for-a4-fc-size-original-imahfmvgzsqkfxan.jpeg?q=90"
+             class="w-100"
+             style="cursor:pointer"
+             onclick="openProduct(
+               'Skrill PU Leather A4 / FC File Folder ',
+               '₹250',
+               'https://rukminim2.flixcart.com/image/1528/1528/xif0q/file-folder/m/u/i/sps-premium-pu-leather-file-folder-20-sleeves-for-a4-fc-size-original-imahfmvgzsqkfxan.jpeg?q=90'
+             )">
+
+        <h6 style="cursor:pointer"
+            onclick="openProduct(
+              'Skrill PU Leather A4 / FC File Folder ',
+              '₹250',
+              'https://rukminim2.flixcart.com/image/1528/1528/xif0q/file-folder/m/u/i/sps-premium-pu-leather-file-folder-20-sleeves-for-a4-fc-size-original-imahfmvgzsqkfxan.jpeg?q=90'
+            )">
+          Skrill PU Leather A4 / FC File Folder
+        </h6>
+
+        <div class="price">₹250</div>
+        <div class="offer">15% Off</div>
+
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Skrill PU Leather A4 / FC File Folder ', '₹250',15)">
+          Add to Cart
+        </button>
+
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+      <div class="product-card ">
+
+        <img src="https://rukminim2.flixcart.com/image/1528/1528/k3bwrrk0/post-it/c/r/7/color-notes-cube-76mm-x-76mm-post-it-original-imafmcnemgztxhxh.jpeg?q=90"
+             class="w-100"
+             style="cursor:pointer"
+             onclick="openProduct(
+               'Post-It sticky notes 200 Sheets Pop-up',
+               '₹140',
+               'https://rukminim2.flixcart.com/image/1528/1528/k3bwrrk0/post-it/c/r/7/color-notes-cube-76mm-x-76mm-post-it-original-imafmcnemgztxhxh.jpeg?q=90'
+             )">
+
+        <h6 style="cursor:pointer"
+            onclick="openProduct(
+              'Post-It sticky notes 200 Sheets Pop-up',
+              '₹140',
+              'https://rukminim2.flixcart.com/image/1528/1528/k3bwrrk0/post-it/c/r/7/color-notes-cube-76mm-x-76mm-post-it-original-imafmcnemgztxhxh.jpeg?q=90'
+            )">
+          Post-It sticky notes 200 Sheets Pop-up
+        </h6>
+
+        <div class="price">₹140</div>
+        <div class="offer">10% Off</div>
+
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Post-It sticky notes 200 Sheets Pop-up', '₹140',10)">
+          Add to Cart
+        </button>
+
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+      <div class="product-card ">
+
+        <img src="https://rukminim2.flixcart.com/image/1528/1528/xif0q/post-it/d/s/1/pocket-size-spiral-sticky-note-pad-memo-pads-25-sheets-regular-original-imahgrrbseg5mdg6.jpeg?q=90"
+             class="w-100"
+             style="cursor:pointer"
+             onclick="openProduct(
+               'Pocket-size Spiral Sticky notes',
+               '₹160',
+               'https://rukminim2.flixcart.com/image/1528/1528/xif0q/post-it/d/s/1/pocket-size-spiral-sticky-note-pad-memo-pads-25-sheets-regular-original-imahgrrbseg5mdg6.jpeg?q=90'
+             )">
+
+        <h6 style="cursor:pointer"
+            onclick="openProduct(
+              'Pocket-size Spiral Sticky notes',
+              '₹160',
+              'https://rukminim2.flixcart.com/image/1528/1528/xif0q/post-it/d/s/1/pocket-size-spiral-sticky-note-pad-memo-pads-25-sheets-regular-original-imahgrrbseg5mdg6.jpeg?q=90'
+            )">
+          Pocket-size Spiral Sticky notes
+        </h6>
+
+        <div class="price">₹160</div>
+        <div class="offer">15% Off</div>
+
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Pocket-size Spiral Sticky notes', '₹160',15)">
+          Add to Cart
+        </button>
+
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+      <div class="product-card ">
+
+        <img src="https://rukminim2.flixcart.com/image/1528/1528/xif0q/stapler-pin-remover/y/g/l/hp-45-stapler-machine-stapler-kangaro-original-imahhb4dyqzv3qhg.jpeg?q=90"
+             class="w-100"
+             style="cursor:pointer"
+             onclick="openProduct(
+               'Kangaro HP-45 STAPLER PACK OF 1 Manual',
+               '₹360',
+               'https://rukminim2.flixcart.com/image/1528/1528/xif0q/stapler-pin-remover/y/g/l/hp-45-stapler-machine-stapler-kangaro-original-imahhb4dyqzv3qhg.jpeg?q=90'
+             )">
+
+        <h6 style="cursor:pointer"
+            onclick="openProduct(
+              'Kangaro HP-45 STAPLER PACK OF 1 Manual',
+              '₹360',
+              'https://rukminim2.flixcart.com/image/1528/1528/xif0q/stapler-pin-remover/y/g/l/hp-45-stapler-machine-stapler-kangaro-original-imahhb4dyqzv3qhg.jpeg?q=90'
+            )">
+          Kangaro HP-45 STAPLER PACK OF 1 Manual
+        </h6>
+
+        <div class="price">₹360</div>
+        <div class="offer">20% Off</div>
+
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Kangaro HP-45 STAPLER PACK OF 1 Manual', '₹360',20)">
+          Add to Cart
+        </button>
+
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+      <div class="product-card ">
+
+        <img src="https://rukminim2.flixcart.com/image/1528/1528/xif0q/stapler/a/v/7/50-hd-10d-ubiqq-original-imahdg9fzmx5gzyf.jpeg?q=90"
+             class="w-100"
+             style="cursor:pointer"
+             onclick="openProduct(
+               'Kangaro Desk Essentials HD-10D Stapler',
+               '₹180',
+               'https://rukminim2.flixcart.com/image/1528/1528/xif0q/stapler/a/v/7/50-hd-10d-ubiqq-original-imahdg9fzmx5gzyf.jpeg?q=90'
+             )">
+
+        <h6 style="cursor:pointer"
+            onclick="openProduct(
+              'Kangaro Desk Essentials HD-10D Stapler',
+              '₹180',
+              'https://rukminim2.flixcart.com/image/1528/1528/xif0q/stapler/a/v/7/50-hd-10d-ubiqq-original-imahdg9fzmx5gzyf.jpeg?q=90'
+            )">
+          Kangaro Desk Essentials HD-10D Stapler
+        </h6>
+
+        <div class="price">₹180</div>
+        <div class="offer">10% Off</div>
+
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Kangaro Desk Essentials HD-10D Stapler', '₹180',10)">
+          Add to Cart
+        </button>
+
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+      <div class="product-card ">
+
+        <img src="https://rukminim2.flixcart.com/image/1528/1528/klscivk0/stapler-pin-remover/t/r/q/23-8-h-stapler-pin-pack-of-5-stapler-pin-kangaro-original-imagyuynpyzsrbnz.jpeg?q=90"
+             class="w-100"
+             style="cursor:pointer"
+             onclick="openProduct(
+               'Kangaro MANUAL 23/8-H STICK STAPLER PIN',
+               '₹220',
+               'https://rukminim2.flixcart.com/image/1528/1528/klscivk0/stapler-pin-remover/t/r/q/23-8-h-stapler-pin-pack-of-5-stapler-pin-kangaro-original-imagyuynpyzsrbnz.jpeg?q=90'
+             )">
+
+        <h6 style="cursor:pointer"
+            onclick="openProduct(
+              'Kangaro MANUAL 23/8-H STICK STAPLER PIN',
+              '₹220',
+              'https://rukminim2.flixcart.com/image/1528/1528/klscivk0/stapler-pin-remover/t/r/q/23-8-h-stapler-pin-pack-of-5-stapler-pin-kangaro-original-imagyuynpyzsrbnz.jpeg?q=90'
+            )">
+          Kangaro MANUAL 23/8-H STICK STAPLER PIN
+        </h6>
+
+        <div class="price">₹220</div>
+        <div class="offer">15% Off</div>
+
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Kangaro MANUAL 23/8-H STICK STAPLER PIN', '₹220',15)">
+          Add to Cart
+        </button>
+
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+      <div class="product-card ">
+
+        <img src="https://rukminim2.flixcart.com/image/1528/1528/l5fnhjk0/stapler-pin-remover/g/n/n/desk-essentials-24-6-1m-heavy-duty-steel-wire-staple-pin-stapler-original-imagg3zfyv5uhm8g.jpeg?q=90"
+             class="w-100"
+             style="cursor:pointer"
+             onclick="openProduct(
+               'Kangaro Manual No. 24/6-1M Desk Essentials',
+               '₹260',
+               'https://rukminim2.flixcart.com/image/1528/1528/l5fnhjk0/stapler-pin-remover/g/n/n/desk-essentials-24-6-1m-heavy-duty-steel-wire-staple-pin-stapler-original-imagg3zfyv5uhm8g.jpeg?q=90'
+             )">
+
+        <h6 style="cursor:pointer"
+            onclick="openProduct(
+              'Kangaro Manual No. 24/6-1M Desk Essentials',
+              '₹260',
+              'https://rukminim2.flixcart.com/image/1528/1528/l5fnhjk0/stapler-pin-remover/g/n/n/desk-essentials-24-6-1m-heavy-duty-steel-wire-staple-pin-stapler-original-imagg3zfyv5uhm8g.jpeg?q=90'
+            )">
+          Kangaro Manual No. 24/6-1M Desk Essentials
+        </h6>
+
+        <div class="price">₹260</div>
+        <div class="offer">15% Off</div>
+
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('Kangaro Manual No. 24/6-1M Desk Essentials', '₹260',15)">
+          Add to Cart
+        </button>
+
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+      <div class="product-card ">
+
+        <img src="https://rukminim1.flixcart.com/image/1528/1528/k20r8nk0/clip/d/p/k/binder-clip-41-mm-infinity-original-imafhgyhvrrf4ng9.jpeg?q=90"
+             class="w-100"
+             style="cursor:pointer"
+             onclick="openProduct(
+               'INFINITY Binder Clip 41 mm Stainless Steel Paper Clip',
+               '₹160',
+               'https://rukminim1.flixcart.com/image/1528/1528/k20r8nk0/clip/d/p/k/binder-clip-41-mm-infinity-original-imafhgyhvrrf4ng9.jpeg?q=90'
+             )">
+
+        <h6 style="cursor:pointer"
+            onclick="openProduct(
+              'INFINITY Binder Clip 41 mm Stainless Steel Paper Clip',
+              '₹260',
+              'https://rukminim1.flixcart.com/image/1528/1528/k20r8nk0/clip/d/p/k/binder-clip-41-mm-infinity-original-imafhgyhvrrf4ng9.jpeg?q=90'
+            )">
+          INFINITY Binder Clip 41 mm Stainless Steel Paper Clip
+        </h6>
+
+        <div class="price">₹160</div>
+        <div class="offer">15% Off</div>
+
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('INFINITY Binder Clip 41 mm Stainless Steel Paper Clip', '₹160',15)">
+          Add to Cart
+        </button>
+
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+      <div class="product-card ">
+
+        <img src="https://rukminim1.flixcart.com/image/1528/1528/k20r8nk0/clip/d/p/k/binder-clip-41-mm-infinity-original-imafhgyhvrrf4ng9.jpeg?q=90"
+             class="w-100"
+             style="cursor:pointer"
+             onclick="openProduct(
+               'INFINITY Binder Clip 25 mm Stainless Steel Paper Clip',
+               '₹120',
+               'https://rukminim1.flixcart.com/image/1528/1528/k20r8nk0/clip/d/p/k/binder-clip-41-mm-infinity-original-imafhgyhvrrf4ng9.jpeg?q=90'
+             )">
+
+        <h6 style="cursor:pointer"
+            onclick="openProduct(
+              'INFINITY Binder Clip 25 mm Stainless Steel Paper Clip',
+              '₹120',
+              'https://rukminim1.flixcart.com/image/1528/1528/k20r8nk0/clip/d/p/k/binder-clip-41-mm-infinity-original-imafhgyhvrrf4ng9.jpeg?q=90'
+            )">
+          INFINITY Binder Clip 25 mm Stainless Steel Paper Clip
+        </h6>
+
+        <div class="price">₹120</div>
+        <div class="offer">15% Off</div>
+
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('INFINITY Binder Clip 25 mm Stainless Steel Paper Clip', '₹120',15)">
+          Add to Cart
+        </button>
+
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+      <div class="product-card ">
+
+        <img src="https://rukminim1.flixcart.com/image/1528/1528/xif0q/clip/j/c/q/50-pieces-office-supply-stationery-paper-u-clips-nssp-original-imahjy5yzpggaayu.jpeg?q=90"
+             class="w-100"
+             style="cursor:pointer"
+             onclick="openProduct(
+               'NSSP Colorful Metal Binder Paper Clip pins',
+               '₹150',
+               'https://rukminim1.flixcart.com/image/1528/1528/xif0q/clip/j/c/q/50-pieces-office-supply-stationery-paper-u-clips-nssp-original-imahjy5yzpggaayu.jpeg?q=90'
+             )">
+
+        <h6 style="cursor:pointer"
+            onclick="openProduct(
+              'NSSP Colorful Metal Binder Paper Clip pins',
+              '₹150',
+              'https://rukminim1.flixcart.com/image/1528/1528/xif0q/clip/j/c/q/50-pieces-office-supply-stationery-paper-u-clips-nssp-original-imahjy5yzpggaayu.jpeg?q=90'
+            )">
+          NSSP Colorful Metal Binder Paper Clip pins
+        </h6>
+
+        <div class="price">₹150</div>
+        <div class="offer">15% Off</div>
+
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('NSSP Colorful Metal Binder Paper Clip pins', '₹150',15)">
+          Add to Cart
+        </button>
+
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+      <div class="product-card ">
+
+        <img src="https://rukminim1.flixcart.com/image/1528/1528/xif0q/pin/i/p/t/color-metal-pins-vsc-original-imah9cfgpsgyyrhk.jpeg?q=90"
+             class="w-100"
+             style="cursor:pointer"
+             onclick="openProduct(
+               'VSC Steel, Steel Pins (Set Of 100, Multicolor)',
+               '₹120',
+               'https://rukminim1.flixcart.com/image/1528/1528/xif0q/pin/i/p/t/color-metal-pins-vsc-original-imah9cfgpsgyyrhk.jpeg?q=90'
+             )">
+
+        <h6 style="cursor:pointer"
+            onclick="openProduct(
+              'VSC Steel, Steel Pins (Set Of 100, Multicolor)',
+              '₹120',
+              'https://rukminim1.flixcart.com/image/1528/1528/xif0q/pin/i/p/t/color-metal-pins-vsc-original-imah9cfgpsgyyrhk.jpeg?q=90'
+            )">
+          VSC Steel, Steel Pins (Set Of 100, Multicolor)
+        </h6>
+
+        <div class="price">₹120</div>
+        <div class="offer">15% Off</div>
+
+        <button class="btn btn-warning w-100 mt-2 fw-bold"
+                onclick="addToCart('VSC Steel, Steel Pins (Set Of 100, Multicolor)', '₹120',15)">
+          Add to Cart
+        </button>
+
+      </div>
+    </div>
+    
 </div>
 </div>
 <div id="productDetails" class="container my-5" style="display:none;">
@@ -2181,18 +3646,34 @@ text-align:center;font-size:14px;cursor:pointer;
 let cart = [];
 let savedItems = [];
 
-function addToCart(product, price) {
-    const numericPrice = parseInt(price.replace("₹",""));
-    const existingItem = cart.find(item => item.product === product);
+function addToCart(product, price, discount = 0) {
+
+    const numericPrice = parseInt(
+        price.toString().replace(/[^0-9]/g,"")
+    );
+
+    const numericDiscount = parseInt(discount) || 0;
+
+    const existingItem = cart.find(
+        item => item.product === product
+    );
 
     if(existingItem){
+
         existingItem.quantity++;
+
     } else {
-        cart.push({product, price:numericPrice, quantity:1});
+
+        cart.push({
+            product: product,
+            price: numericPrice,
+            discount: numericDiscount,
+            quantity: 1
+        });
+
     }
 
     updateCart();
-    alert("Added to Cart!");
 }
 
 function showCartPage(){
@@ -2201,46 +3682,509 @@ function showCartPage(){
     updateCart();
 }
 
-function goToProducts(){
-    document.getElementById("cartPage").style.display = "none";
-    window.scrollTo(0,0);
+function showCheckout() {
+    if(cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+    }
+    document.getElementById('cartContent').style.display = 'none';
+    document.getElementById('checkoutSection').style.display = 'flex';
 }
 
-function goHome(){
-    document.getElementById("cartPage").style.display = "none";
-    document.getElementById("productDetails").style.display = "none";
+function proceedToCheckout() {
+        // Validation: Don't proceed if cart is empty
+        const count = parseInt(document.getElementById('cartCount').innerText);
+        if (count === 0) {
+            alert("Please add items to your cart first!");
+            return;
+        }
+        document.getElementById('step1_CartItems').style.display = 'none';
+        document.getElementById('step2_Checkout').style.display = 'block';
+    }
 
-    document.getElementById("books").style.display = "block";
-    document.getElementById("stationery").style.display = "block";
-    document.getElementById("artcraft").style.display = "block";
-    document.getElementById("printing").style.display = "block";
-    document.getElementById("college").style.display = "block";
-    document.getElementById("office").style.display = "block";
+    function backToCart() {
+        document.getElementById('step2_Checkout').style.display = 'none';
+        document.getElementById('step1_CartItems').style.display = 'block';
+    }
 
-    window.scrollTo(0,0);
+    function finalizeOrder() {
+        const name = document.getElementById('orderName').value;
+        const phone = document.getElementById('orderPhone').value;
+        const address = document.getElementById('orderAddress').value;
+
+        if (phone.length !== 10) {
+            alert("Error: Mobile number must be exactly 10 digits.");  
+            return;
+        }
+
+        // Generate a random Order ID
+        const orderId = "SE" + Math.floor(100000 + Math.random() * 900000);
+        document.getElementById('orderIdDisplay').innerText = orderId;
+
+        // Transition to Success
+        document.getElementById('step2_Checkout').style.display = 'none';
+        document.getElementById('orderSuccess').style.display = 'block';
+        
+        // Hide the price details card on the right for a "clean" success look
+        document.querySelector('.col-md-4').style.display = 'none';
+    }
+
+let searchHistory = [];
+
+function searchProducts(value) {
+
+let input = value.toLowerCase();
+let cards = document.querySelectorAll(".product-card");
+let visibleCount = 0;
+
+cards.forEach(card => {
+
+let title = card.querySelector("h6").innerText.toLowerCase();
+let col = card.closest(".col-md-3");
+
+if(title.includes(input)){
+
+col.style.display = "block";
+visibleCount++;
+
+}else{
+
+col.style.display = "none";
+
 }
 
-function goToSection(sectionId){
+});
 
-    // Hide cart & product page
-    document.getElementById("cartPage").style.display = "none";
-    document.getElementById("productDetails").style.display = "none";
+/* Hide empty sections like Flipkart */
 
-    // Show all sections normally
-    const sections = ["books","stationery","artcraft","printing","college","office"];
-    sections.forEach(id => {
-        document.getElementById(id).style.display = "block";
+["books","stationery","artcraft","printing","college","office"]
+.forEach(id => {
+
+let section = document.getElementById(id);
+
+let visibleProducts =
+section.querySelectorAll(".col-md-3[style*='block']").length;
+
+if(visibleProducts === 0){
+section.style.display="none";
+}else{
+section.style.display="block";
+}
+
+});
+
+if(value.length>0){
+showSuggestions(value);
+}else{
+document.getElementById("searchHistoryBox").style.display="none";
+}
+
+}
+
+function showSuggestions(text) {
+
+    let box = document.getElementById("searchHistoryBox");
+    box.innerHTML = "";
+
+    let cards = document.querySelectorAll(".product-card");
+    let count = 0;
+
+    cards.forEach(card => {
+
+        let name = card.querySelector("h6").innerText;
+        let img = card.querySelector("img").src;
+
+        // detect category automatically
+        let section = card.closest(".container").id;
+
+        let categoryName = {
+            books: "Books",
+            stationery: "Stationery",
+            artcraft: "Art & Craft",
+            printing: "Printing",
+            college: "College Essentials",
+            office: "Office Supplies"
+        }[section];
+
+        if (name.toLowerCase().includes(text.toLowerCase()) && count < 6) {
+
+            let div = document.createElement("div");
+
+            div.style.display = "flex";
+            div.style.alignItems = "center";
+            div.style.padding = "10px";
+            div.style.cursor = "pointer";
+            div.style.borderBottom = "1px solid #eee";
+            div.style.gap = "10px";
+
+            div.innerHTML = `
+                <img src="${img}" style="width:35px;height:35px;object-fit:contain;">
+                <div>
+                    <div style="font-size:14px;color:#000;">${name}</div>
+                    <div style="font-size:12px;color:#777;">in ${categoryName}</div>
+                </div>
+            `;
+
+            div.onclick = function () {
+
+                document.getElementById("searchInput").value = name;
+                searchProducts(name);
+                saveSearch(name);
+                box.style.display = "none";
+
+            };
+
+            div.onmouseover = function(){
+                this.style.background = "#f5f5f5";
+            };
+
+            div.onmouseout = function(){
+                this.style.background = "white";
+            };
+
+            box.appendChild(div);
+            count++;
+        }
+
     });
 
-    // Small delay ensures layout is stable before scroll
-    setTimeout(() => {
-        document.getElementById(sectionId).scrollIntoView({
-            behavior: "smooth"
-        });
-    }, 50);
+    box.style.display = count === 0 ? "none" : "block";
 }
 
-function updateCart(){
+function saveSearch(text) {
+
+    if (!searchHistory.includes(text)) {
+        searchHistory.unshift(text);
+    }
+
+    if (searchHistory.length > 5) {
+        searchHistory.pop();
+    }
+}
+
+
+function displaySearchHistory() {
+
+    let box = document.getElementById("searchHistoryBox");
+    box.innerHTML = "";
+
+    searchHistory.forEach(item => {
+
+        let div = document.createElement("div");
+
+        div.style.padding = "8px";
+        div.style.cursor = "pointer";
+        div.innerText = "Recent: " + item;
+
+        div.onclick = function () {
+
+            document.getElementById("searchInput").value = item;
+            searchProducts(item);
+            box.style.display = "none";
+        };
+
+        box.appendChild(div);
+
+    });
+
+    if (searchHistory.length > 0) {
+        box.style.display = "block";
+    }
+}
+
+
+document.addEventListener("click", function(e){
+
+    if (!document.getElementById("searchInput").contains(e.target)) {
+        document.getElementById("searchHistoryBox").style.display = "none";
+    }
+
+});
+
+    // --- INVOICE GENERATION ---
+
+    function downloadInvoice() {
+
+    const orderId = document.getElementById("orderIdDisplay").innerText;
+    const name = document.getElementById("orderName").value;
+    const address = document.getElementById("orderAddress").value;
+    const total = parseFloat(document.getElementById("finalAmount").innerText);
+
+    const date = new Date().toLocaleDateString("en-GB");
+
+    const platformFee = 4;
+    const handling = 7;
+
+    const productTotal = total - (platformFee + handling);
+
+    const taxable = (productTotal / 1.18).toFixed(2);
+    const igst = (productTotal - taxable).toFixed(2);
+
+
+    // ✅ CHANGE START (only this part changed)
+
+    const products =
+        JSON.parse(localStorage.getItem("orderItems")) || [];
+
+    let productRows = "";
+
+    products.forEach(p => {
+
+        let price = Number(p.price);
+        let qty = Number(p.qty);
+
+        let gross = price * qty;
+
+        let taxVal = (gross / 1.18).toFixed(2);
+        let ig = (gross - taxVal).toFixed(2);
+
+        productRows += `
+        <tr>
+            <td>${p.name}</td>
+            <td>${qty}</td>
+            <td>${gross.toFixed(2)}</td>
+            <td>${taxVal}</td>
+            <td>${ig}</td>
+            <td>${gross.toFixed(2)}</td>
+        </tr>
+        `;
+    });
+
+    // ✅ CHANGE END
+
+    const element = document.createElement("div");
+
+    element.innerHTML = `
+
+<div style="font-family:Arial;padding:20px">
+
+<div style="border:1px solid black;padding:15px">
+
+<div style="display:flex;justify-content:space-between">
+
+<div>
+
+<h2>Tax Invoice</h2>
+
+ShopEasy Internet Pvt Ltd<br>
+Chennai, Tamil Nadu<br>
+GSTIN: 33ABCDE1234F1Z5
+
+</div>
+
+<div>
+
+<img src="ShopEasy logo.png" width="120">
+
+</div>
+
+</div>
+
+<hr>
+
+<b>Billing Address</b><br>
+
+${name}<br>
+${address}
+
+<br><br>
+
+Order ID: ${orderId} <br>
+Date: ${date} <br>
+Invoice: SE${Math.floor(Math.random()*999999)}
+
+<br><br>
+
+<table border="1" style="width:100%;border-collapse:collapse">
+
+<tr style="background:#eee">
+
+<th>Product</th>
+<th>Qty</th>
+<th>Gross</th>
+<th>Taxable</th>
+<th>IGST 18%</th>
+<th>Total</th>
+
+</tr>
+
+${productRows}
+
+<tr>
+<td>Platform Fee</td>
+<td>1</td>
+<td>4.00</td>
+<td>3.39</td>
+<td>0.61</td>
+<td>4.00</td>
+</tr>
+
+<tr>
+<td>Handling Charges</td>
+<td>1</td>
+<td>7.00</td>
+<td>5.93</td>
+<td>1.07</td>
+<td>7.00</td>
+</tr>
+
+</table>
+
+<br>
+
+<div style="text-align:right">
+
+<h3>Grand Total ₹${total.toFixed(2)}</h3>
+
+<br><br>
+
+ShopEasy Internet Pvt Ltd<br>
+Authorized Signatory
+
+</div>
+
+<br>
+
+<small>
+
+Contact ShopEasy: 044-45614700  
+www.shopeasy.com
+
+</small>
+
+</div>
+
+</div>
+
+`;
+
+
+    const opt = {
+
+        margin: 0.3,
+        filename: "ShopEasy_Invoice_" + orderId + ".pdf",
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+
+    };
+
+    html2pdf().set(opt).from(element).save();
+
+}
+
+function saveState(page){
+
+    history.pushState(
+        {page: page},
+        "",
+        "#" + page
+    );
+
+}
+
+function goHome() {
+
+    saveState("home");
+    document.getElementById("searchInput").value = "";
+
+    document.querySelectorAll(".product-card").forEach(card => {
+        let col = card.closest(".col-md-3");
+        if (col) col.style.display = "";
+    });
+
+    document.querySelectorAll(".row").forEach(r => {
+        r.style.display = "flex";
+    });
+
+    const ids = [
+        "books",
+        "stationery",
+        "artcraft",
+        "printing",
+        "college",
+        "office"
+    ];
+
+    ids.forEach(id => {
+        let s = document.getElementById(id);
+        if (s) s.style.display = "";
+    });
+
+
+    let cart = document.getElementById("cartPage");
+    if (cart) cart.style.display = "none";
+
+    let product = document.getElementById("productDetails");
+    if (product) product.style.display = "none";
+
+    window.scrollTo(0,0);
+}
+
+let lastSection = null;
+function goToSection(sectionId){
+
+    saveState(sectionId);
+    let input = document.getElementById("searchInput");
+    if(input) input.value = "";
+
+
+    let cart = document.getElementById("cartPage");
+    if(cart) cart.style.display = "none";
+
+    let product = document.getElementById("productDetails");
+    if(product) product.style.display = "none";
+
+
+    // ✅ show all product cards again (important fix)
+    document.querySelectorAll(".product-card").forEach(card => {
+        let col = card.closest(".col-md-3");
+        if(col) col.style.display = "";
+    });
+
+
+    // show all sections
+    const sections = [
+        "books",
+        "stationery",
+        "artcraft",
+        "printing",
+        "college",
+        "office"
+    ];
+
+    sections.forEach(id => {
+        let s = document.getElementById(id);
+        if(s) s.style.display = "block";
+    });
+
+
+    // scroll to selected section
+    setTimeout(() => {
+        let section = document.getElementById(sectionId);
+
+        if(section){
+            section.scrollIntoView({
+                behavior: "smooth"
+            });
+        }
+
+    }, 50);
+
+}
+
+function goBack(){
+
+    if(lastSection){
+        goToSection(lastSection);
+    }else{
+        goHome();
+    }
+
+}
+
+function updateCart() {
+
     const cartItemsList = document.getElementById("cartItemsList");
     const savedItemsList = document.getElementById("savedItemsList");
     const emptyUI = document.getElementById("emptyCartUI");
@@ -2251,58 +4195,129 @@ function updateCart(){
 
     let total = 0;
     let totalQty = 0;
+    let totalDiscount = 0;
 
-    // If cart is empty AND no saved items
-    if(cart.length === 0 && savedItems.length === 0){
+    // Empty cart check
+    if (cart.length === 0 && savedItems.length === 0) {
+
         emptyUI.style.display = "block";
         cartRow.style.display = "none";
+
+        // reset price details
+        document.getElementById("cartCount").innerText = 0;
+        document.getElementById("totalItems").innerText = 0;
+        document.getElementById("totalPrice").innerText = 0;
+        document.getElementById("discountAmount").innerText = 0;
+        document.getElementById("finalAmount").innerText = 0;
+        document.getElementById("saveAmount").innerText = 0;
+
         return;
-    } else {
+    } 
+    else {
         emptyUI.style.display = "none";
         cartRow.style.display = "flex";
     }
 
-    // CART ITEMS
-    cart.forEach((item,index)=>{
-        total += item.price * item.quantity;
-        totalQty += item.quantity;
+    // Cart items
+    cart.forEach((item, index) => {
+
+        let price = Number(item.price);
+        let qty = Number(item.quantity);
+        let discountPercent = Number(item.discount || 0);
+
+        let itemTotal = price * qty;
+
+        let discountAmount = (price * discountPercent / 100) * qty;
+
+        let finalItemPrice = itemTotal - discountAmount;
+
+        total += itemTotal;
+        totalDiscount += discountAmount;
+        totalQty += qty;
 
         cartItemsList.innerHTML += `
         <div class="border-bottom py-3">
-            <h6>${item.product}</h6>
-            <p class="mb-1">₹${item.price}</p>
 
-            <button class="btn btn-sm btn-outline-secondary" onclick="decreaseQuantity(${index})">-</button>
-            ${item.quantity}
-            <button class="btn btn-sm btn-outline-secondary" onclick="increaseQuantity(${index})">+</button>
+            <h6>${item.product}</h6>
+
+            <p class="mb-1 text-muted">
+                Price: ₹${price} | ${discountPercent}% Off
+            </p>
+
+            <button class="btn btn-sm btn-outline-secondary"
+                onclick="decreaseQuantity(${index})">-</button>
+
+            <span class="mx-2">${qty}</span>
+
+            <button class="btn btn-sm btn-outline-secondary"
+                onclick="increaseQuantity(${index})">+</button>
 
             <div class="mt-2">
-                <a href="#" onclick="saveForLater(${index})" class="me-3 text-decoration-none fw-bold">SAVE FOR LATER</a>
-                <a href="#" onclick="removeFromCart(${index})" class="text-decoration-none fw-bold text-dark">REMOVE</a>
+
+                <a href="#"
+                   onclick="saveForLater(${index})"
+                   class="me-3 text-decoration-none fw-bold">
+                   SAVE FOR LATER
+                </a>
+
+                <a href="#"
+                   onclick="removeFromCart(${index})"
+                   class="text-decoration-none fw-bold text-dark">
+                   REMOVE
+                </a>
+
             </div>
 
-            <div class="text-end fw-bold">₹${item.price * item.quantity}</div>
+            <div class="text-end fw-bold">
+                Subtotal: ₹${Math.round(finalItemPrice)}
+            </div>
+
         </div>
         `;
     });
 
-    // SAVED ITEMS
-    savedItems.forEach((item,index)=>{
+
+    // Saved items
+    savedItems.forEach((item, index) => {
+
         savedItemsList.innerHTML += `
         <div class="border-bottom py-3">
+
             <h6>${item.product}</h6>
+
             <p>₹${item.price}</p>
-            <a href="#" onclick="moveToCart(${index})" class="me-3 text-decoration-none fw-bold">MOVE TO CART</a>
-            <a href="#" onclick="removeSaved(${index})" class="text-decoration-none fw-bold text-dark">REMOVE</a>
+
+            <a href="#"
+               onclick="moveToCart(${index})"
+               class="me-3 text-decoration-none fw-bold">
+               MOVE TO CART
+            </a>
+
+            <a href="#"
+               onclick="removeSaved(${index})"
+               class="text-decoration-none fw-bold text-dark">
+               REMOVE
+            </a>
+
         </div>
         `;
     });
 
+
+    // ===== PRICE DETAILS =====
+
     document.getElementById("cartCount").innerText = totalQty;
-    document.getElementById("savedCount").innerText = savedItems.length;
     document.getElementById("totalItems").innerText = totalQty;
-    document.getElementById("totalPrice").innerText = total;
-    document.getElementById("finalAmount").innerText = total > 0 ? total - 15 : 0;
+
+    document.getElementById("totalPrice").innerText = Math.round(total);
+    document.getElementById("discountAmount").innerText = Math.round(totalDiscount);
+
+    let finalAmount = total - totalDiscount;
+
+    if (finalAmount < 0) finalAmount = 0;
+
+    document.getElementById("finalAmount").innerText = Math.round(finalAmount);
+    document.getElementById("saveAmount").innerText = Math.round(totalDiscount);
 }
 
 function increaseQuantity(index){
@@ -2362,107 +4377,21 @@ function openProduct(name, price, image){
 }
 
 function addToCartFromDetails(){
-    addToCart(selectedProduct.name, selectedProduct.price);
+
+if(!selectedProduct.name) return;
+
+addToCart(selectedProduct.name, selectedProduct.price);
+
+alert("Item added to cart!");
+
 }
 
 function buyNow(){
     alert("Proceeding to payment...");
 }
-function searchProducts(query){
 
-    query = query.toLowerCase().trim();
 
-    const suggestionBox = document.getElementById("searchHistoryBox");
-    suggestionBox.style.display = "block";
-
-    document.getElementById("cartPage").style.display = "none";
-    document.getElementById("productDetails").style.display = "none";
-
-    const products = document.querySelectorAll(".product-card");
-    let found = false;
-
-    suggestionBox.innerHTML = "";
-
-    products.forEach(card => {
-
-        const title = card.querySelector("h6");
-        const originalText = title.dataset.original || title.innerText;
-        title.dataset.original = originalText;
-
-        let textLower = originalText.toLowerCase();
-
-        if(query && textLower.includes(query)){
-
-            const regex = new RegExp(`(${query})`, "gi");
-            title.innerHTML = originalText.replace(regex, "<mark>$1</mark>");
-
-            card.parentElement.style.display = "block";
-            found = true;
-
-            // Add suggestion item
-            suggestionBox.innerHTML += `
-                <div style="padding:8px; cursor:pointer;"
-                     onclick="selectSuggestion('${originalText}')">
-                     🔍 ${originalText}
-                </div>
-            `;
-
-        } else {
-            title.innerHTML = originalText;
-            card.parentElement.style.display = query ? "none" : "block";
-        }
-    });
-
-    if(!found && query){
-        suggestionBox.innerHTML = `
-            <div style="padding:8px; color:gray;">
-                No products found
-            </div>
-        `;
-    }
-
-    if(query !== ""){
-        saveSearchHistory(query);
-    }
-}
-
-function saveSearchHistory(query){
-
-    let history = JSON.parse(localStorage.getItem("searchHistory")) || [];
-
-    // Avoid duplicates
-    history = history.filter(item => item !== query);
-
-    history.unshift(query);
-
-    if(history.length > 5){
-        history.pop();
-    }
-
-    localStorage.setItem("searchHistory", JSON.stringify(history));
-
-    displaySearchHistory();
-}
-
-function displaySearchHistory(){
-
-    const container = document.getElementById("searchHistoryBox");
-    if(!container) return;
-
-    let history = JSON.parse(localStorage.getItem("searchHistory")) || [];
-
-    container.innerHTML = "";
-
-    history.forEach(item => {
-        container.innerHTML += `
-            <div style="cursor:pointer; padding:5px;"
-                 onclick="searchProducts('${item}')">
-                🔍 ${item}
-            </div>
-        `;
-    });
-}
-       
+// Ensure your displaySearchHistory remains as you wrote it       
 // ---------------- LOGIN & OTP FLOW ----------------
 document.addEventListener("DOMContentLoaded", function() {
 
@@ -2587,9 +4516,191 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
 });
+
+window.onpopstate = function(event){
+
+    if(!event.state) return;
+
+    let page = event.state.page;
+
+    if(page === "home"){
+        goHome();
+    }
+    else{
+        goToSection(page);
+    }
+
+};
+
+function toggleLoginMenu(event){
+
+event.stopPropagation();
+
+let menu = document.getElementById("loginMenu");
+
+if(menu.style.display === "block"){
+menu.style.display = "none";
+}else{
+menu.style.display = "block";
+}
+
+}
+
+document.addEventListener("click", function(){
+
+let menu = document.getElementById("loginMenu");
+
+if(menu){
+menu.style.display = "none";
+}
+
+});
+
+/* ---------------- LOCATION SYSTEM ---------------- */
+
+function openLocationModal(){
+document.getElementById("locationDrawer").style.right="0";
+}
+
+function closeLocationModal(){
+document.getElementById("locationDrawer").style.right="-420px";
+}
+
+/* PINCODE + CITY API */
+
+async function savePincode(){
+
+let pincode=document.getElementById("pincodeInput").value;
+
+if(!/^[0-9]{6}$/.test(pincode)){
+alert("Enter valid 6 digit pincode");
+return;
+}
+
+let response=await fetch("https://api.postalpincode.in/pincode/"+pincode);
+let data=await response.json();
+
+if(data[0].Status!="Success"){
+alert("Invalid Pincode");
+return;
+}
+
+let city=data[0].PostOffice[0].District;
+let state=data[0].PostOffice[0].State;
+
+let locationText=city+", "+state;
+
+localStorage.setItem("userLocation",locationText);
+
+document.getElementById("locationText").innerText=locationText;
+
+closeLocationModal();
+}
+
+/* AUTO DETECT LOCATION */
+
+async function detectLocation(){
+
+if(!navigator.geolocation){
+alert("Geolocation not supported");
+return;
+}
+
+navigator.geolocation.getCurrentPosition(async function(position){
+
+let lat = position.coords.latitude;
+let lon = position.coords.longitude;
+
+try{
+
+let response = await fetch(
+`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`
+);
+
+let data = await response.json();
+
+let road = data.address.road || "";
+
+let suburb = data.address.suburb || data.address.neighbourhood || "";
+suburb = suburb.replace(/Zone\s*\d+/i, "").trim();
+
+let city = data.address.city || data.address.town || data.address.village || "";
+let state = data.address.state || "";
+
+let addressParts = [road, suburb, city, state]
+.filter(part => part && part.trim() !== "");
+
+let address = addressParts.join(", ");
+
+document.getElementById("locationText").innerText = address;
+
+/* Save location */
+localStorage.setItem("userLocation", address);
+
+closeLocationModal();
+
+}
+catch(err){
+alert("Unable to detect location");
+}
+
+});
+
+}
+
+/* LOAD SAVED LOCATION */
+
+window.onload = function(){
+
+let savedLocation = localStorage.getItem("userLocation");
+
+if(savedLocation){
+document.getElementById("locationText").innerText = savedLocation;
+}
+
+}
+
 </script>
+
 <!-- ✅ ADD THIS LINE HERE -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- LOCATION DRAWER -->
+<div id="locationDrawer" class="location-drawer">
+
+<div class="location-header">
+<h5>Select delivery address</h5>
+<span class="close-location" onclick="closeLocationModal()">×</span>
+</div>
+
+<div class="location-body">
+
+<input type="text"
+id="pincodeInput"
+placeholder="Search by area, street name, pin code"
+class="location-search">
+
+<button class="btn btn-primary w-100 mt-2"
+onclick="savePincode()">
+Check Pincode
+</button>
+
+<div class="use-location mt-3" onclick="detectLocation()">
+  <img src="assets/images/gps.png" class="location-icon">
+  Use my current location
+</div>
+
+<div class="saved-address">
+<p>Saved addresses</p>
+<span class="login-saved">
+Login to see saved addresses
+</span>
+</div>
+
+</div>
+
+</div>
+
 
 </body>
 </html> 
