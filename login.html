@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShopEasy - Flipkart Style</title>
+<link rel="icon" type="image/png" href="ShopEasy logo.png">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+import { getAuth, RecaptchaVerifier, signInWithPhoneNumber }
+from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyCGnQ8C0Ks_lNR0Tah5OhPBPRymSDGeUAA",
+authDomain: "shopeasy-afeb5.firebaseapp.com",
+projectId: "shopeasy-afeb5",
+storageBucket: "shopeasy-afeb5.firebasestorage.app",
+messagingSenderId: "18943138524",
+appId: "1:18943138524:web:5d4fde8b1fc3affea57219"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+window.signupRecaptcha = new RecaptchaVerifier(auth,'signup-recaptcha',{
+size:'normal'
+});
+
+window.sendOTP = function(){
+
+let phone=document.getElementById("loginPhone").value;
+
+signInWithPhoneNumber(auth,"+91"+phone,window.signupRecaptcha)
+.then(function(confirmationResult){
+
+window.confirmationResult=confirmationResult;
+
+alert("OTP Sent Successfully");
+
+document.getElementById("otpSection").style.display="block";
+
+}).catch(function(error){
+
+alert(error.message);
+
+});
+
+}
+
+window.verifyOTP=function(){
+
+let otp=document.getElementById("otpInput").value;
+
+confirmationResult.confirm(otp)
+.then(function(result){
+
+alert("Login Successful");
+
+window.location.href="index.html";
+
+}).catch(function(error){
+
+alert("Invalid OTP");
+
+});
+
+}
+
+</script>
+
+<style>
+body{
+background:#f1f3f6;
+font-family:Roboto;
+}
+
+/* HEADER */
+
+.header{
+background:#2874f0;
+padding:10px 20px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+color:white;
+}
+
+.header-left{
+display:flex;
+align-items:center;
+gap:20px;
+}
+
+.header-right{
+display:flex;
+align-items:center;
+gap:20px;
+}
+
+/* LOGO */
+
+.logo{
+font-size:20px;
+font-weight:bold;
+cursor:pointer;
+}
+
+/* SEARCH */
+
+.search-box{
+position:relative;
+}
+
+.search-box input{
+width:450px;
+padding:6px 10px;
+border-radius:2px;
+border:none;
+}
+
+#searchHistoryBox{
+position:absolute;
+top:40px;
+background:white;
+width:100%;
+border:1px solid #ddd;
+max-height:300px;
+overflow-y:auto;
+box-shadow:0 4px 10px rgba(0,0,0,0.15);
+border-radius:4px;
+z-index:1000;
+}
+
+/* LOCATION */
+.delivery-location{
+display:flex;
+align-items:center;
+gap:6px;
+cursor:pointer;
+font-size:14px;
+}
+.location-icon{
+width:20px;
+height:20px;
+margin-right:8px;
+}
+.select-location{
+color:#cce0ff;
+}
+
+/* LOGIN */
+/* =========================
+   GLASS MODAL DESIGN
+========================= */
+
+.glass-modal{
+background:rgba(255,255,255,0.15);
+backdrop-filter:blur(18px);
+-webkit-backdrop-filter:blur(18px);
+border-radius:16px;
+border:1px solid rgba(255,255,255,0.3);
+box-shadow:0 10px 40px rgba(0,0,0,0.35);
+overflow:hidden;
+position:relative;
+}
+
+/* glass shine effect */
+
+.glass-modal::before{
+content:"";
+position:absolute;
+top:0;
+left:-80%;
+width:60%;
+height:100%;
+background:linear-gradient(
+120deg,
+transparent,
+rgba(255,255,255,0.35),
+transparent
+);
+transform:skewX(-25deg);
+transition:0.6s;
+}
+
+.glass-modal:hover::before{
+left:130%;
+}
+
+
+/* =========================
+   ANIMATED GRADIENT PANEL
+========================= */
+
+.creative-login-left{
+padding:40px;
+color:white;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+position:relative;
+overflow:hidden;
+
+background:linear-gradient(
+-45deg,
+#2874f0,
+#1f5edc,
+#4facfe,
+#00c6ff
+);
+
+background-size:400% 400%;
+animation:gradientMove 10s ease infinite;
+}
+
+
+/* floating glowing circles */
+
+.creative-login-left::before{
+content:"";
+position:absolute;
+width:200px;
+height:200px;
+background:rgba(255,255,255,0.15);
+border-radius:50%;
+top:-60px;
+right:-60px;
+filter:blur(10px);
+animation:floatOrb 6s ease-in-out infinite;
+}
+
+.creative-login-left::after{
+content:"";
+position:absolute;
+width:150px;
+height:150px;
+background:rgba(255,255,255,0.12);
+border-radius:50%;
+bottom:-50px;
+left:-50px;
+filter:blur(8px);
+animation:floatOrb 7s ease-in-out infinite;
+}
+
+
+/* gradient animation */
+
+@keyframes gradientMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+
+/* floating animation */
+
+@keyframes floatOrb{
+0%{transform:translateY(0px);}
+50%{transform:translateY(-15px);}
+100%{transform:translateY(0px);}
+}
+
+
+/* =========================
+   BRANDING
+========================= */
+
+.brand-title{
+font-size:34px;
+font-weight:700;
+letter-spacing:1px;
+}
+
+.brand-tagline{
+margin-top:10px;
+font-size:15px;
+color:#e6f0ff;
+}
+
+
+/* =========================
+   BENEFITS LIST
+========================= */
+
+.benefits{
+margin-top:30px;
+display:flex;
+flex-direction:column;
+gap:20px;
+}
+
+.benefit{
+display:flex;
+align-items:center;
+font-size:15px;
+transition:0.3s;
+}
+
+.benefit:hover{
+transform:translateX(6px);
+}
+
+
+/* icon styling */
+
+.icon{
+font-size:22px;
+margin-right:12px;
+transition:0.3s;
+}
+
+.benefit:hover .icon{
+transform:scale(1.2);
+}
+
+.login-btn{
+background:#fb641b;
+border:none;
+padding:12px;
+font-weight:500;
+margin-top:10px;
+}
+
+.login-btn:hover{
+background:#e65c00;
+}
+
+.create-account{
+margin-top:50px;
+font-size:14px;
+color:#878787;
+}
+
+.create-account a{
+color:#2874f0;
+font-weight:500;
+text-decoration:none;
+}
+
+.create-account a:hover{
+text-decoration:underline;
+}
+
+/* SIGNUP PAGE */
+
+.signup-box{
+display:flex;
+width:800px;
+margin:60px auto;
+background:white;
+border-radius:8px;
+box-shadow:0 4px 15px rgba(0,0,0,0.15);
+overflow:hidden;
+}
+
+.signup-left{
+background:#2874f0;
+color:white;
+width:40%;
+padding:40px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+}
+
+.signup-left h2{
+font-size:28px;
+font-weight:bold;
+}
+
+.signup-right{
+width:60%;
+padding:40px;
+}
+
+.signup-right input{
+height:45px;
+}
+
+.signup-btn{
+background:#fb641b;
+border:none;
+color:white;
+font-weight:500;
+padding:12px;
+width:100%;
+}
+
+.signup-btn:hover{
+background:#e65c00;
+}
+
+/* CART */
+.cart-wrapper{
+display:flex;
+align-items:center;
+cursor:pointer;
+position:relative;
+}
+.cart-icon-img{
+width:22px;
+margin-right:6px;
+filter:brightness(0) invert(1);
+}
+
+/* CART BADGE */
+#cartCountBadge{
+position:absolute;
+top:-6px;
+left:12px;
+background:#ff6161;
+color:white;
+font-size:10px;
+font-weight:bold;
+padding:1px 5px;
+border-radius:10px;
+display:none;
+}
+
+/* PRODUCT CARD */
+.product-card{
+background:white;
+padding:15px;
+border-radius:2px;
+border:1px solid #f0f0f0;
+height:100%;
+}
+.product-card img{
+height:180px;
+object-fit:contain;
+}
+.price{
+font-weight:bold;
+font-size:18px;
+}
+.offer{
+color:#388e3c;
+font-size:14px;
+}
+.category-icons{
+background:white;
+padding:12px 0;
+display:flex;
+justify-content:space-around;
+align-items:center;
+border-bottom:1px solid #ddd;
+}
+
+.category-icons div{
+text-align:center;
+font-size:14px;
+cursor:pointer;
+padding:5px 10px;
+}
+.category-icons div:hover{
+color:#2874f0;
+font-weight:500;
+}
+
+/* LOCATION DRAWER */
+
+.location-drawer{
+position:fixed;
+top:0;
+right:-420px;
+width:400px;
+height:100%;
+background:white;
+box-shadow:-2px 0 8px rgba(0,0,0,0.2);
+z-index:2000;
+transition:0.3s;
+display:flex;
+flex-direction:column;
+}
+
+.location-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px;
+border-bottom:1px solid #eee;
+font-weight:600;
+}
+
+.close-location{
+font-size:22px;
+cursor:pointer;
+}
+
+.location-body{
+padding:15px;
+}
+
+.location-search{
+width:100%;
+padding:10px;
+border:1px solid #ddd;
+border-radius:6px;
+margin-bottom:15px;
+}
+
+.use-location{
+display:flex;
+align-items:center;
+gap:8px;
+color:#2874f0;
+cursor:pointer;
+font-weight:500;
+}
+
+.location-icon{
+width:18px;
+height:18px;
+}
+
+.saved-address{
+margin-top:20px;
+}
+
+.login-saved{
+color:#2874f0;
+cursor:pointer;
+font-size:14px;
+}
+
+.close-btn{
+position:absolute;
+top:5px;
+right:10px;
+border:none;
+background:none;
+font-size:22px;
+cursor:pointer;
+}
+
+/* LOGIN DROPDOWN */
+
+.login-dropdown{
+position:relative;
+display:flex;
+align-items:center;
+cursor:pointer;
+}
+
+.dropdown-menu-login{
+position:absolute;
+top:40px;
+right:0;
+background:white;
+width:180px;
+border-radius:6px;
+box-shadow:0 6px 16px rgba(0,0,0,0.2);
+display:none;
+z-index:9999;
+padding:5px 0;
+}
+
+.dropdown-menu-login a{
+display:block;
+padding:10px 15px;
+text-decoration:none;
+color:#333;
+font-size:14px;
+}
+
+.dropdown-menu-login a:hover{
+background:#f1f3f6;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+
+<div class="header-left">
+
+<div class="logo" onclick="goHome()">ShopEasy</div>
+
+<!-- SEARCH BAR -->
+<div class="search-box">
+<input type="text"
+id="searchInput"
+placeholder="Search for products, brands and more"
+class="form-control"
+onkeyup="searchProducts(this.value); showSuggestions(this.value)"
+onkeydown="handleEnter(event)"
+onclick="displaySearchHistory()">
+<div id="searchHistoryBox"
+style="
+position:absolute;
+top:40px;
+background:white;
+width:100%;
+border:1px solid #ddd;
+display:none;
+z-index:1000;
+max-height:220px;
+overflow-y:auto;
+box-shadow:0 4px 10px rgba(0,0,0,0.15);
+border-radius:4px;
+">
+</div>
+</div>
+
+</div>
+
+<div class="header-right">
+
+<div class="delivery-location" onclick="openLocationModal()">
+
+<img src="https://cdn-icons-png.flaticon.com/512/684/684908.png"
+class="location-icon">
+
+<span id="locationText">Location not set</span>
+
+<span class="select-location">Select delivery location ></span>
+
+</div>
+
+<!-- CART -->
+<div class="cart-wrapper" onclick="showCartPage()">
+
+<span id="cartCountBadge"></span>
+
+<img src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/header_cart_v4-6ac9a8.svg"
+class="cart-icon-img">
+
+Cart
+
+</div>
+
+</div>
+
+</div>
+
+<!-- CART MODAL -->
+<div class="container my-4" id="cartPage" style="display:none;">
+    <div class="row">
+
+        <div id="emptyCartUI" class="text-center py-5" style="display:none;">
+            <img src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png"
+                 width="120"
+                 class="mb-3">
+
+            <h4>Your cart is empty!</h4>
+            <p class="text-muted">Add items to it now.</p>
+
+            <button class="btn btn-primary px-4"
+                    onclick="goToProducts()">
+                    Shop Now
+            </button>
+        </div>
+
+<!-- LEFT SIDE - CART ITEMS -->
+<div class="col-md-8">
+    
+    <div id="step1_CartItems">
+        <div class="card p-3">
+            <h5>My Cart (<span id="cartCount">0</span>)</h5>
+            <hr>
+            <div id="cartItemsList"></div>
+            <hr>
+            <h6 class="mt-3 text-muted">Saved For Later (<span id="savedCount">0</span>)</h6>
+            <div id="savedItemsList"></div>
+
+            <div class="text-end mt-3 border-top pt-3">
+                <button class="btn btn-light me-2" onclick="clearCart()">Remove All</button>
+                <button class="btn btn-warning px-5 py-2 fw-bold" onclick="proceedToCheckout()">PLACE ORDER</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="step2_Checkout" class="card p-4" style="display:none;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="mb-0">Delivery & Payment Details</h5>
+            <button class="btn btn-sm btn-outline-secondary" onclick="backToCart()">← Back to Cart</button>
+        </div>
+        <hr>
+        <form id="orderForm">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label small fw-bold">Full Name</label>
+                    <input type="text" class="form-control" id="orderName" placeholder="Enter your name" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label small fw-bold">Phone Number</label>
+                    <input type="tel" 
+                      class="form-control" 
+                      id="orderPhone" 
+                      placeholder="10-digit mobile number" 
+                      maxlength="10" 
+                       oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+                        required>
+                </div>
+                <div class="col-12">
+                    <label class="form-label small fw-bold">Delivery Address</label>
+                    <textarea class="form-control" id="orderAddress" rows="2" placeholder="House No, Street, Area, Pincode" required></textarea>
+                </div>
+            </div>
+            
+            <h6 class="mt-4">Payment Method</h6>
+            <div class="form-check border p-3 rounded mb-3 bg-light">
+                <input class="form-check-input ms-1" type="radio" name="payment" id="cod" checked>
+                <label class="form-check-label ms-2" for="cod">Cash on Delivery (COD)</label>
+            </div>
+
+            <button type="button" class="btn btn-warning w-100 py-3 fw-bold" onclick="finalizeOrder()">CONFIRM ORDER</button>
+        </form>
+    </div>
+
+    <div id="orderSuccess" class="card p-5 text-center" style="display:none;">
+        <div class="mb-3">
+            <img src="https://cdn-icons-png.flaticon.com/512/5290/5290058.png" width="80" alt="Success">
+        </div>
+        <h3 class="text-success">Order Placed Successfully!</h3>
+        <p class="text-muted">Thank you for shopping with ShopEasy.</p>
+        <div class="bg-light p-3 rounded mb-3">
+            <p class="mb-1 text-dark">Order ID: <span id="orderIdDisplay" class="fw-bold text-primary"></span></p>
+        </div>
+        <div class="d-grid gap-2">
+            <button class="btn btn-dark" onclick="downloadInvoice()">Download Invoice (PDF)</button>
+            <button class="btn btn-outline-primary" onclick="goHome()">Continue Shopping</button>
+        </div>
+    </div>
+
+</div>
+
+<!-- RIGHT SIDE - PRICE DETAILS -->
+<div class="col-md-4">
+<div class="card p-3">
+<h6>PRICE DETAILS</h6>
+<hr>
+<p>
+Price (<span id="totalItems">0</span> items)
+<span class="float-end">
+₹<span id="totalPrice">0</span>
+</span>
+</p>
+
+<p>
+Discount
+<span class="float-end text-success">
+−₹<span id="discountAmount">0</span>
+</span>
+</p>
+
+<p>
+Delivery Charges
+<span class="float-end text-success">FREE</span>
+</p>
+
+<hr>
+
+<h6>
+Total Amount
+<span class="float-end">
+₹<span id="finalAmount">0</span>
+</span>
+</h6>
+
+<p class="text-success mt-2">
+You will save ₹<span id="saveAmount">0</span> on this order
+</p>
+
+</div>
+</div>
+
+</div>
+</div>
+
+
+<!-- CATEGORY ICON ROW -->
+<div class="category-icons">
+<div onclick="goToSection('books')">Books</div>
+<div onclick="goToSection('stationery')">Stationery</div>
+<div onclick="goToSection('artcraft')">Art & Craft Supplies</div>
+<div onclick="goToSection('printing')">Printing</div>
+<div onclick="goToSection('college')">College Essentials</div>
+<div onclick="goToSection('office')">Office Supplies</div>
+</div>
+
+<div class="signup-box">
+
+<!-- LEFT PANEL -->
+
+<div class="signup-left creative-login-left glass-modal"> <div> <div class="brand-title">ShopEasy</div> <div class="brand-tagline"> India's Smart Stationery Store </div> <div class="benefits"> <div class="benefit"> <span class="icon">📚</span> Best Books & Study Materials </div> <div class="benefit"> <span class="icon">✏️</span> Premium Stationery Collection </div> <div class="benefit"> <span class="icon">🚚</span> Fast Delivery Across India </div> </div> </div> </div>
+
+<!-- RIGHT PANEL -->
+
+<div class="signup-right">
+
+<!-- LOGIN FORM (DEFAULT) -->
+
+<div id="loginForm">
+
+<h4 class="mb-3">Login</h4>
+
+<input type="text"
+class="form-control mb-3"
+placeholder="Enter mobile number"
+id="loginPhone">
+
+<button class="signup-btn" onclick="sendOTP()">
+SEND OTP
+</button>
+
+<div id="otpSection" style="display:none">
+
+<input type="text"
+class="form-control mt-3"
+placeholder="Enter OTP"
+id="otpInput">
+
+<button class="signup-btn mt-3" onclick="verifyOTP()">
+VERIFY OTP
+</button>
+
+</div>
+
+<div class="mt-3 text-center">
+New to ShopEasy?
+<a href="#" onclick="showSignup()">Create an account</a>
+</div>
+
+</div>
+
+<!-- SIGNUP FORM -->
+
+<div id="signupForm" style="display:none;">
+
+<h4 class="mb-3">Create Account</h4>
+
+<input type="text"
+class="form-control mb-3"
+placeholder="Enter mobile number"
+id="signupPhone"> ✅
+
+<div id="signup-recaptcha"></div>
+
+<button onclick="sendOTP()">Send OTP</button>
+
+<div id="signupOtpSection" style="display:none;">
+    <input type="text" id="signupOtpInput" placeholder="Enter OTP">
+    <button onclick="verifyOTP()">Verify OTP</button>
+</div>
+
+</div>
+
+<!-- Firebase reCAPTCHA -->
+<input type="text" id="signupPhone" placeholder="Enter mobile number">
+
+<div id="signup-recaptcha"></div>
+
+<button onclick="sendSignupOTP()">Send OTP</button>
+
+<div id="otpSection" style="display:none;">
+    <input type="text" id="signupOtpInput" placeholder="Enter OTP">
+    <button onclick="verifySignupOTP()">Verify OTP</button>
+</div>
+
+<div class="existing-user mt-3">
+<a href="#" onclick="showLogin()" class="btn btn-light w-100">
+Existing User? Log in
+</a>
+</div>
+
+</div>
+
+<script>
+
+window.sendSignupOTP = function(){
+
+let phone=document.getElementById("signupPhone").value;
+
+if(phone.length!=10){
+alert("Enter valid mobile number");
+return;
+}
+
+signInWithPhoneNumber(auth,"+91"+phone,window.recaptchaVerifier)
+.then(function(confirmationResult){
+
+window.confirmationResult=confirmationResult;
+
+alert("OTP Sent Successfully");
+
+document.getElementById("signupOtpSection").style.display="block";
+
+}).catch(function(error){
+
+alert(error.message);
+
+});
+
+}
+
+
+window.verifySignupOTP=function(){
+
+let otp=document.getElementById("signupOtpInput").value;
+
+confirmationResult.confirm(otp)
+.then(function(result){
+
+alert("Account created successfully!");
+
+window.location.href="index.html";
+
+}).catch(function(error){
+
+alert("Invalid OTP");
+
+});
+
+}
+
+function toggleLoginMenu(){
+
+let menu = document.getElementById("loginMenu");
+
+if(menu.style.display === "block"){
+menu.style.display = "none";
+}else{
+menu.style.display = "block";
+}
+
+}
+
+function showSignup(){
+
+document.getElementById("loginForm").style.display="none";
+document.getElementById("signupForm").style.display="block";
+
+}
+
+function showLogin(){
+
+document.getElementById("loginForm").style.display="block";
+document.getElementById("signupForm").style.display="none";
+
+}
+
+function loginUser(){
+
+let phone=document.getElementById("loginPhone").value;
+let storedUser=localStorage.getItem("shopUser");
+
+if(phone===storedUser){
+
+alert("Login successful!");
+
+window.location.href="index.html";
+
+}else{
+
+alert("User not found. Please create account.");
+
+}
+
+}
+
+function goHome(){
+window.location.href="index.html";
+}
+
+</script>
+
+</body>
+</html>

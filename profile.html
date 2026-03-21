@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopEasy - My Profile</title>
+    <link rel="icon" type="image/png" href="ShopEasy logo.png">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        body { 
+            background: #f1f3f6; 
+            font-family: Roboto, Arial, sans-serif; 
+            margin: 0;
+        }
+
+        /* --- HEADER --- */
+        .header { 
+            background: #2874f0; 
+            padding: 10px 20px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            color: white; 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+        }
+        .header-left, .header-right { display: flex; align-items: center; gap: 20px; }
+        .logo { font-size: 20px; font-weight: bold; cursor: pointer; text-decoration: none; color: white; }
+        
+        .search-box input { 
+            width: 450px; 
+            padding: 7px 12px; 
+            border-radius: 2px; 
+            border: none; 
+            outline: none; 
+            font-size: 14px;
+        }
+
+        .header-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        /* --- CATEGORY BAR --- */
+        .category-icons { 
+            background: white; 
+            padding: 12px 0; 
+            display: flex; 
+            justify-content: space-around; 
+            align-items: center; 
+            border-bottom: 1px solid #ddd; 
+            margin-bottom: 20px; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .category-icons div { 
+            text-align: center; 
+            font-size: 14px; 
+            cursor: pointer; 
+            padding: 5px 10px; 
+            transition: 0.2s; 
+            color: #333;
+        }
+        .category-icons div:hover { color: #2874f0; font-weight: 500; }
+
+        /* --- LAYOUT --- */
+        .container-profile { 
+            display: flex; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            gap: 15px; 
+            padding: 0 10px 50px 10px; 
+        }
+        
+        /* SIDEBAR */
+        .sidebar { width: 280px; flex-shrink: 0; }
+        
+        .creative-sidebar-head {
+            padding: 15px; 
+            color: white; 
+            border-radius: 2px 2px 0 0;
+            background: linear-gradient(-45deg, #2874f0, #1f5edc, #4facfe, #00c6ff);
+            background-size: 400% 400%; 
+            animation: gradientMove 10s ease infinite;
+            display: flex; 
+            align-items: center; 
+            gap: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        @keyframes gradientMove { 
+            0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} 
+        }
+
+        .avatar-wrapper { position: relative; width: 50px; height: 50px; }
+        .user-img { 
+            width: 50px; 
+            height: 50px; 
+            border-radius: 50%; 
+            border: 2px solid white; 
+            object-fit: cover; 
+            background: #fff; 
+        }
+        .cam-btn { 
+            position: absolute; bottom: -2px; right: -2px; 
+            background: white; border-radius: 50%; 
+            width: 18px; height: 18px; 
+            display: flex; align-items: center; justify-content: center; 
+            cursor: pointer; border: 1px solid #ddd; 
+            font-size: 9px; color: #2874f0; 
+        }
+
+        .profile-nav-card { background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-radius: 0 0 2px 2px; }
+        .menu-item { 
+            display: block; 
+            padding: 15px 20px; 
+            color: #212121; 
+            text-decoration: none; 
+            font-weight: 500; 
+            border-bottom: 1px solid #f0f0f0; 
+            font-size: 14px;
+        }
+        .menu-item:hover { background: #f9f9f9; color: #2874f0; }
+        .menu-item i { margin-right: 15px; width: 18px; color: #2874f0; text-align: center; }
+        .menu-item.active { color: #2874f0; background: #f5faff; }
+
+        /* MAIN CONTENT */
+        .profile-main { 
+            flex-grow: 1; 
+            background: white; 
+            padding: 30px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+            border-radius: 2px; 
+        }
+        .section-title { font-size: 18px; font-weight: 600; margin-bottom: 25px; }
+        
+        .form-label { color: #878787; font-size: 14px; margin-bottom: 8px; }
+        .form-control-custom { 
+            width: 100%; padding: 12px; 
+            border: 1px solid #e0e0e0; 
+            background: #fafafa; 
+            border-radius: 2px; 
+            margin-bottom: 20px; 
+            outline: none; 
+        }
+        .form-control-custom:focus { border-color: #2874f0; background: #fff; }
+
+        .btn-save { 
+            background: #fb641b; 
+            color: white; 
+            border: none; 
+            padding: 14px 60px; 
+            font-weight: bold; 
+            border-radius: 2px; 
+            transition: 0.3s; 
+            text-transform: uppercase;
+        }
+        .btn-save:hover { background: #e65c00; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="header-left">
+            <div class="logo" onclick="location.href='index.html'">ShopEasy</div>
+            <div class="search-box">
+                <input type="text" placeholder="Search for products, brands and more">
+            </div>
+        </div>
+        <div class="header-right header-links">
+            <div onclick="location.href='cart.html'">
+                <i class="fa fa-shopping-cart"></i> Cart
+            </div>
+            <div onclick="logout()">Logout</div>
+        </div>
+    </div>
+
+    <div class="category-icons">
+        <div onclick="location.href='index.html#books'">Books</div>
+        <div onclick="location.href='index.html#stationery'">Stationery</div>
+        <div onclick="location.href='index.html#art'">Art & Craft Supplies</div>
+        <div onclick="location.href='index.html#printing'">Printing</div>
+        <div onclick="location.href='index.html#college'">College Essentials</div>
+        <div onclick="location.href='index.html#office'">Office Supplies</div>
+    </div>
+
+    <div class="container-profile">
+        <div class="sidebar">
+            <div class="creative-sidebar-head">
+                <div class="avatar-wrapper">
+                    <img src="https://via.placeholder.com/50" id="userAvatar" class="user-img">
+                    <label for="imgInput" class="cam-btn"><i class="fa fa-camera"></i></label>
+                    <input type="file" id="imgInput" hidden accept="image/*" onchange="uploadPic(this)">
+                </div>
+                <div>
+                    <div style="font-size: 12px; opacity: 0.9;">Hello,</div>
+                    <div id="sideUserName" style="font-weight: 600;">ShopEasy User</div>
+                </div>
+            </div>
+            <div class="profile-nav-card">
+                <a href="#" class="menu-item active"><i class="fa fa-user"></i> Profile Information</a>
+                <a href="#" class="menu-item"><i class="fa fa-shopping-bag"></i> My Orders</a>
+                <a href="#" class="menu-item"><i class="fa fa-map-marker-alt"></i> Manage Addresses</a>
+                <a href="#" class="menu-item" onclick="logout()" style="color: #ff6161;"><i class="fa fa-power-off"></i> Logout</a>
+            </div>
+        </div>
+
+        <div class="profile-main">
+            <h5 class="section-title">Personal Information</h5>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="form-label">First Name</label>
+                    <input type="text" id="fname" class="form-control-custom">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Last Name</label>
+                    <input type="text" id="lname" class="form-control-custom">
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label d-block">Your Gender</label>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gender" id="m" value="Male">
+                    <label class="form-check-label" for="m">Male</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gender" id="f" value="Female">
+                    <label class="form-check-label" for="f">Female</label>
+                </div>
+            </div>
+
+            <h5 class="section-title">Email Address</h5>
+            <input type="email" id="email" class="form-control-custom" style="max-width: 450px;">
+
+            <h5 class="section-title">Mobile Number</h5>
+            <input type="text" id="phone" class="form-control-custom" style="max-width: 450px;">
+
+            <div class="mt-3">
+                <button class="btn-save" onclick="saveProfile()">SAVE CHANGES</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load data on start
+        window.onload = function() {
+            const user = JSON.parse(localStorage.getItem("shopUserDetail")) || {};
+            
+            document.getElementById('fname').value = user.fname || "";
+            document.getElementById('lname').value = user.lname || "";
+            document.getElementById('email').value = user.email || "";
+            document.getElementById('phone').value = user.phone || "";
+            
+            if(user.fname) {
+                document.getElementById('sideUserName').innerText = user.fname + " " + (user.lname || "");
+            }
+            if(user.profilePic) {
+                document.getElementById('userAvatar').src = user.profilePic;
+            }
+            if(user.gender) {
+                if(user.gender === "Male") document.getElementById('m').checked = true;
+                else if(user.gender === "Female") document.getElementById('f').checked = true;
+            }
+        };
+
+        // Profile Picture Upload
+        function uploadPic(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('userAvatar').src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Save Data to LocalStorage
+        function saveProfile() {
+            const genderSelected = document.querySelector('input[name="gender"]:checked');
+            const data = {
+                fname: document.getElementById('fname').value,
+                lname: document.getElementById('lname').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                gender: genderSelected ? genderSelected.value : "",
+                profilePic: document.getElementById('userAvatar').src
+            };
+
+            localStorage.setItem("shopUserDetail", JSON.stringify(data));
+            document.getElementById('sideUserName').innerText = data.fname + " " + data.lname;
+            alert("Profile saved successfully!");
+        }
+
+        function logout() {
+            if(confirm("Confirm Logout?")) {
+                window.location.href = "login.html";
+            }
+        }
+    </script>
+</body>
+</html>
