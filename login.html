@@ -8,70 +8,6 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-<script type="module">
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-import { getAuth, RecaptchaVerifier, signInWithPhoneNumber }
-from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
-
-const firebaseConfig = {
-apiKey: "AIzaSyCGnQ8C0Ks_lNR0Tah5OhPBPRymSDGeUAA",
-authDomain: "shopeasy-afeb5.firebaseapp.com",
-projectId: "shopeasy-afeb5",
-storageBucket: "shopeasy-afeb5.firebasestorage.app",
-messagingSenderId: "18943138524",
-appId: "1:18943138524:web:5d4fde8b1fc3affea57219"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-
-window.signupRecaptcha = new RecaptchaVerifier(auth,'signup-recaptcha',{
-size:'normal'
-});
-
-window.sendOTP = function(){
-
-let phone=document.getElementById("loginPhone").value;
-
-signInWithPhoneNumber(auth,"+91"+phone,window.signupRecaptcha)
-.then(function(confirmationResult){
-
-window.confirmationResult=confirmationResult;
-
-alert("OTP Sent Successfully");
-
-document.getElementById("otpSection").style.display="block";
-
-}).catch(function(error){
-
-alert(error.message);
-
-});
-
-}
-
-window.verifyOTP=function(){
-
-let otp=document.getElementById("otpInput").value;
-
-confirmationResult.confirm(otp)
-.then(function(result){
-
-alert("Login Successful");
-
-window.location.href="index.html";
-
-}).catch(function(error){
-
-alert("Invalid OTP");
-
-});
-
-}
-
-</script>
-
 <style>
 body{
 background:#f1f3f6;
@@ -804,9 +740,10 @@ You will save ₹<span id="saveAmount">0</span> on this order
 <input type="text"
 class="form-control mb-3"
 placeholder="Enter mobile number"
-id="loginPhone">
+id="loginPhone"
+onkeydown="handleEnter(event)">
 
-<button class="signup-btn" onclick="sendOTP()">
+<button type="button" class="signup-btn" onclick="sendOTP()">
 SEND OTP
 </button>
 
@@ -815,7 +752,8 @@ SEND OTP
 <input type="text"
 class="form-control mt-3"
 placeholder="Enter OTP"
-id="otpInput">
+id="otpInput"
+onkeydown="if(event.key==='Enter'){verifyOTP()}">
 
 <button class="signup-btn mt-3" onclick="verifyOTP()">
 VERIFY OTP
@@ -839,85 +777,107 @@ New to ShopEasy?
 <input type="text"
 class="form-control mb-3"
 placeholder="Enter mobile number"
-id="signupPhone"> ✅
+id="signupPhone">
 
-<div id="signup-recaptcha"></div>
+<button class="signup-btn" onclick="sendOTP()">
+SEND OTP
+</button>
 
-<button onclick="sendOTP()">Send OTP</button>
+<div id="signupOtpSection" style="display:none">
 
-<div id="signupOtpSection" style="display:none;">
-    <input type="text" id="signupOtpInput" placeholder="Enter OTP">
-    <button onclick="verifyOTP()">Verify OTP</button>
+<input type="text"
+class="form-control mt-3"
+placeholder="Enter OTP"
+id="signupOtpInput">
+
+<button class="signup-btn mt-3" onclick="verifyOTP()">
+VERIFY OTP
+</button>
+
 </div>
 
-</div>
-
-<!-- Firebase reCAPTCHA -->
-<input type="text" id="signupPhone" placeholder="Enter mobile number">
-
-<div id="signup-recaptcha"></div>
-
-<button onclick="sendSignupOTP()">Send OTP</button>
-
-<div id="otpSection" style="display:none;">
-    <input type="text" id="signupOtpInput" placeholder="Enter OTP">
-    <button onclick="verifySignupOTP()">Verify OTP</button>
-</div>
-
-<div class="existing-user mt-3">
-<a href="#" onclick="showLogin()" class="btn btn-light w-100">
-Existing User? Log in
-</a>
+<div class="mt-3 text-center">
+Existing User?
+<a href="#" onclick="showLogin()">Log in</a>
 </div>
 
 </div>
 
 <script>
 
-window.sendSignupOTP = function(){
+let generatedOTP = "";
 
-let phone=document.getElementById("signupPhone").value;
+let userPhone = "";
 
-if(phone.length!=10){
-alert("Enter valid mobile number");
-return;
+let otpSent = false;
+
+function sendOTP(){
+
+    let loginForm = document.getElementById("loginForm");
+
+    let phone = "";
+
+    if(loginForm.style.display !== "none"){
+        phone = document.getElementById("loginPhone").value.trim();
+    } else {
+        phone = document.getElementById("signupPhone").value.trim();
+    }
+
+    if(!/^[0-9]{10}$/.test(phone)){
+        alert("Enter valid mobile number ❌");
+        return;
+    }
+
+    let otp = Math.floor(1000 + Math.random() * 9000);
+
+    localStorage.setItem("otp", otp);
+    localStorage.setItem("tempPhone", phone);
+
+    alert("OTP: " + otp);
+
+    // ✅ FIX: show correct OTP box
+    if(loginForm.style.display !== "none"){
+        document.getElementById("otpSection").style.display = "block";
+    } else {
+        document.getElementById("signupOtpSection").style.display = "block";
+    }
 }
 
-signInWithPhoneNumber(auth,"+91"+phone,window.recaptchaVerifier)
-.then(function(confirmationResult){
+function verifyOTP(){
 
-window.confirmationResult=confirmationResult;
+    let loginForm = document.getElementById("loginForm");
 
-alert("OTP Sent Successfully");
+    let enteredOtp = "";
 
-document.getElementById("signupOtpSection").style.display="block";
+    // ✅ HANDLE BOTH LOGIN + SIGNUP
+    if(loginForm.style.display !== "none"){
+        enteredOtp = document.getElementById("otpInput").value.trim();
+    } else {
+        enteredOtp = document.getElementById("signupOtpInput").value.trim();
+    }
 
-}).catch(function(error){
+    let correctOtp = localStorage.getItem("otp");
+    let phone = localStorage.getItem("tempPhone");
 
-alert(error.message);
+    if(enteredOtp === correctOtp){
 
-});
+        // ✅ STORE LOGIN STATE (VERY IMPORTANT)
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("loggedInUser", phone);
+        localStorage.setItem("shopUser", phone);
 
-}
+        console.log("LOGIN SUCCESS:", localStorage);
+        console.log("Before Save:", localStorage);
+        localStorage.setItem("isLoggedIn", "true");
+        console.log("After Save:", localStorage);
 
+        alert("Login Successful ✅");
 
-window.verifySignupOTP=function(){
+        window.location.href = "index.html";
 
-let otp=document.getElementById("signupOtpInput").value;
-
-confirmationResult.confirm(otp)
-.then(function(result){
-
-alert("Account created successfully!");
-
-window.location.href="index.html";
-
-}).catch(function(error){
-
-alert("Invalid OTP");
-
-});
-
+    } else {
+        alert("Wrong OTP ❌");
+    }
 }
 
 function toggleLoginMenu(){
@@ -946,27 +906,28 @@ document.getElementById("signupForm").style.display="none";
 
 }
 
-function loginUser(){
-
-let phone=document.getElementById("loginPhone").value;
-let storedUser=localStorage.getItem("shopUser");
-
-if(phone===storedUser){
-
-alert("Login successful!");
-
-window.location.href="index.html";
-
-}else{
-
-alert("User not found. Please create account.");
-
-}
-
-}
-
 function goHome(){
 window.location.href="index.html";
+}
+
+function handleEnter(event){
+    if(event.key === "Enter"){
+
+        let otpBox = document.getElementById("otpSection");
+        let signupOtpBox = document.getElementById("signupOtpSection");
+
+        if(otpBox.style.display === "block" || signupOtpBox.style.display === "block"){
+            verifyOTP();
+        } else {
+            sendOTP();
+        }
+    }
+}
+
+function logoutUser(){
+    localStorage.clear();
+    alert("Logged out ✅");
+    window.location.href = "login.html";
 }
 
 </script>

@@ -1,0 +1,60 @@
+<div id="books" class="container">
+
+  <!-- 🔹 STATIC PRODUCTS -->
+  <div class="row">
+
+    <!-- PRODUCT 1 -->
+    <div class="col-md-3 mb-4">
+      <div class="product-card">
+
+        <img src="https://rukminim2.flixcart.com/image/416/416/xif0q/book/y/7/k/programming-in-ansi-c-9-edition-original-imah34zzuysuhrak.jpeg?q=70"
+             class="w-100"
+             onclick="openProduct('C Programming Book','₹583',this.src)">
+
+        <h6 onclick="openProduct('C Programming Book','₹583',this.previousElementSibling.src)">
+          C Programming Book
+        </h6>
+
+        <div class="price">₹583</div>
+        <div class="offer">20% Off</div>
+
+        <button class="btn btn-warning w-100 mt-2"
+                onclick="addToCart('C Programming Book','₹583',20)">
+          Add to Cart
+        </button>
+
+      </div>
+    </div>
+
+    <!-- PRODUCT 2 -->
+    <div class="col-md-3 mb-4">
+      <div class="product-card">
+
+        <img src="https://m.media-amazon.com/images/I/51c95Vuek0L._SY445_.jpg"
+             class="w-100"
+             onclick="openProduct('C++ Programming Book','₹390',this.src)">
+
+        <h6 onclick="openProduct('C++ Programming Book','₹390',this.previousElementSibling.src)">
+          C++ Programming Book
+        </h6>
+
+        <div class="price">₹390</div>
+        <div class="offer">15% Off</div>
+
+        <button class="btn btn-warning w-100 mt-2"
+                onclick="addToCart('C++ Programming Book','₹390',15)">
+          Add to Cart
+        </button>
+
+      </div>
+    </div>
+
+    <!-- ADD MORE STATIC PRODUCTS SAME WAY -->
+
+  </div> <!-- ✅ CLOSE STATIC ROW -->
+
+
+  <!-- 🔥 DYNAMIC PRODUCTS -->
+  <div class="row" id="dynamic-products"></div>
+
+</div>
